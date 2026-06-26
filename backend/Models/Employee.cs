@@ -11,4 +11,5 @@ public class Employee
 
     // Relationship mapping
     public Department? Department { get; set; }
+	public HybridSchedule? HybridSchedule { get; set; }
 }
