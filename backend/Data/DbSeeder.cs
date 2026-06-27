@@ -1,4 +1,6 @@
 ﻿using backend.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace backend.Data;
 
@@ -6,7 +8,6 @@ public static class DbSeeder
 {
     public static void SeedData(AppDbContext context)
     {
-        // Check if employees are already seeded
         if (context.Employees.Any())
         {
             return;
@@ -16,15 +17,16 @@ public static class DbSeeder
         var lastNames = new[] { "Smith", "Doe", "Johnson", "Brown", "Taylor", "Miller", "Popescu", "Ionescu", "Nistor", "Lupu", "Muresan", "Stoica" };
         var random = new Random();
 
-        // Department IDs mapped from AppDbContext: 1=Engineering, 2=Sales, 3=Marketing, 4=HR, 5=Finance
         var departmentCounts = new Dictionary<int, int>
         {
-            { 1, 50 }, // Engineering
-            { 2, 50 }, // Sales
-            { 3, 50 }, // Marketing
-            { 4, 1 },  // HR (Single person)
-            { 5, 49 }  // Finance (49 + HR = 50 total for balance)
+            { 1, 50 }, // Engineering (Includes 2 hardcoded accounts + 48 random)
+            { 2, 50 }, 
+            { 3, 50 }, 
+            { 4, 1 },  
+            { 5, 49 }  
         };
+
+        var defaultPasswordHash = HashPassword("Password123!");
 
         foreach (var kvp in departmentCounts)
         {
@@ -33,32 +35,61 @@ public static class DbSeeder
 
             for (int i = 0; i < count; i++)
             {
-                var firstName = firstNames[random.Next(firstNames.Length)];
-                var lastName = lastNames[random.Next(lastNames.Length)];
-                
-                // Create random hire date within the last 12 months
-                var hireDate = DateTime.Today.AddDays(-random.Next(1, 365));
+                Employee employee;
 
-                var employee = new Employee
+                // Hardcode specific test accounts at the beginning of Engineering (Id = 1)
+                if (deptId == 1 && i == 0)
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    DepartmentId = deptId,
-                    SlackHandle = $"{firstName.ToLower()}.{lastName.ToLower()}",
-                    HireDate = hireDate
-                };
+                    employee = new Employee
+                    {
+                        FirstName = "Larisa",
+                        LastName = "Tiflea",
+                        DepartmentId = 1,
+                        SlackHandle = "larisa.tiflea",
+                        HireDate = DateTime.Today.AddMonths(-6),
+                        Username = "larisa.tiflea06",
+                        PasswordHash = HashPassword("passwd123")
+                    };
+                }
+                else if (deptId == 1 && i == 1)
+                {
+                    employee = new Employee
+                    {
+                        FirstName = "Dani",
+                        LastName = "Sadean",
+                        DepartmentId = 1,
+                        SlackHandle = "dani.sadean",
+                        HireDate = DateTime.Today.AddMonths(-4),
+                        Username = "dani.sadean02",
+                        PasswordHash = HashPassword("passwd456")
+                    };
+                }
+                else
+                {
+                    // Generate remaining employees randomly to build data volume
+                    var firstName = firstNames[random.Next(firstNames.Length)];
+                    var lastName = lastNames[random.Next(lastNames.Length)];
+                    var hireDate = DateTime.Today.AddDays(-random.Next(1, 365));
+                    var username = $"{firstName.ToLower()}.{lastName.ToLower()}{random.Next(10, 99)}";
+
+                    employee = new Employee
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        DepartmentId = deptId,
+                        SlackHandle = $"{firstName.ToLower()}.{lastName.ToLower()}",
+                        HireDate = hireDate,
+                        Username = username,
+                        PasswordHash = defaultPasswordHash
+                    };
+                }
 
                 context.Employees.Add(employee);
-                context.SaveChanges(); // Save to generate Employee ID
+                context.SaveChanges(); 
 
-                // 1. Create a list representing the 5 working days
-                // We want exactly 3 True (In-Office) and 2 False (Remote)
                 var daysPool = new List<bool> { true, true, true, false, false };
-
-                // 2. Shuffle the pool randomly using Fisher-Yates or a simple OrderBy
                 var shuffledDays = daysPool.OrderBy(_ => random.Next()).ToList();
 
-                // 3. Assign the guaranteed 3-office / 2-remote days to the schedule
                 var schedule = new HybridSchedule
                 {
                     EmployeeId = employee.Id,
@@ -74,5 +105,12 @@ public static class DbSeeder
         }
 
         context.SaveChanges();
+    }
+
+    private static string HashPassword(string password)
+    {
+        using var sha256 = SHA256.Create();
+        var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return Convert.ToBase64String(bytes);
     }
 }

@@ -7,7 +7,9 @@ public class Employee
     public string LastName { get; set; } = string.Empty;
     public int DepartmentId { get; set; }
     public string SlackHandle { get; set; } = string.Empty;
-    public DateTime HireDate { get; set; }
+    public DateTime HireDate { get; set; } 
+    public string Username { get; set; }
+    public string PasswordHash { get; set; }
 
     // Relationship mapping
     public Department? Department { get; set; }
