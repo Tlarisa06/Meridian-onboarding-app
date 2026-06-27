@@ -1,25 +1,29 @@
-import { useState, useEffect } from 'react';
-import { fetchEmployees, getUniqueDepartments, getEmployeesGroupedAndSorted, calculateSeniorityInMonths } from './services/employeeService';
+import React, { useState, useEffect } from 'react';
+import { subscribeToEmployees } from './services/employeeRpcService';
+import { getUniqueDepartments, getEmployeesGroupedAndSorted, calculateSeniorityInMonths } from './services/employeeService';
 
 function App() {
     const [employees, setEmployees] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('departments');
-    const [selectedDeptName, setSelectedDeptName] = useState('Engineering'); // State updated via buttons now
+    const [selectedDeptName, setSelectedDeptName] = useState('Engineering');
     const [expandedDepts, setExpandedDepts] = useState({});
 
     useEffect(() => {
-        fetchEmployees()
-            .then(data => {
-                setEmployees(data);
-                setLoading(false);
-            })
-            .catch(err => {
+        const unsubscribe = subscribeToEmployees(
+            (newData) => {
+                setEmployees(newData);
+                setError(null);
+            },
+            (err) => {
                 console.error(err);
-                setError("Failed to load employees. Check if backend is running!");
-                setLoading(false);
-            });
+                setError("gRPC Stream failed. Check if backend server is running!");
+            }
+        );
+
+        return () => {
+            if (unsubscribe) unsubscribe();
+        };
     }, []);
 
     const toggleDepartment = (deptName) => {
@@ -29,7 +33,6 @@ function App() {
         }));
     };
 
-    if (loading) return <p style={styles.message}>Loading data...</p>;
     if (error) return <p style={{ ...styles.message, color: 'red' }}>{error}</p>;
 
     const uniqueDepartments = getUniqueDepartments();
@@ -39,7 +42,6 @@ function App() {
         <div style={styles.container}>
             <h1 style={styles.title}>Meridian Onboarding Portal</h1>
 
-            {/* Main Tab Navigation */}
             <div style={styles.tabContainer}>
                 <button
                     style={activeTab === 'departments' ? styles.activeTabButton : styles.tabButton}
@@ -55,7 +57,6 @@ function App() {
                 </button>
             </div>
 
-            {/* TAB 1: Accordion Department View */}
             {activeTab === 'departments' && (
                 <div>
                     {Object.keys(groupedByDepartment).map(deptName => {
@@ -97,12 +98,10 @@ function App() {
                 </div>
             )}
 
-            {/* TAB 2: Hybrid Schedule View with Pill Buttons */}
             {activeTab === 'schedule' && (
                 <div style={styles.scheduleSection}>
                     <div style={styles.filterContainer}>
                         <span style={styles.label}>Select Department: </span>
-                        {/* Replacing the dropdown with clickable clean buttons */}
                         <div style={styles.pillContainer}>
                             {uniqueDepartments.map(dept => {
                                 const isSelected = dept.name.toLowerCase() === selectedDeptName.toLowerCase();
@@ -122,12 +121,12 @@ function App() {
                     <table style={styles.table}>
                         <thead>
                         <tr style={styles.tableHeaderRow}>
-                            <th style={styles.th} style={{ width: '25%' }}>Employee</th>
-                            <th style={styles.th} style={{ textAlign: 'center' }}>Mon</th>
-                            <th style={styles.th} style={{ textAlign: 'center' }}>Tue</th>
-                            <th style={styles.th} style={{ textAlign: 'center' }}>Wed</th>
-                            <th style={styles.th} style={{ textAlign: 'center' }}>Thu</th>
-                            <th style={styles.th} style={{ textAlign: 'center' }}>Fri</th>
+                            <th style={{ ...styles.th, width: '25%' }}>Employee</th>
+                            <th style={{ ...styles.th, textAlign: 'center' }}>Mon</th>
+                            <th style={{ ...styles.th, textAlign: 'center' }}>Tue</th>
+                            <th style={{ ...styles.th, textAlign: 'center' }}>Wed</th>
+                            <th style={{ ...styles.th, textAlign: 'center' }}>Thu</th>
+                            <th style={{ ...styles.th, textAlign: 'center' }}>Fri</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -181,7 +180,7 @@ const styles = {
     activePill: { padding: '8px 16px', fontSize: '14px', border: '1px solid #3b82f6', background: '#eff6ff', color: '#1d4ed8', cursor: 'pointer', borderRadius: '20px', fontWeight: 'bold' },
     table: { width: '100%', borderCollapse: 'collapse', fontSize: '15px', tableLayout: 'fixed' },
     tableHeaderRow: { backgroundColor: '#f1f5f9', borderBottom: '2px solid #cbd5e1' },
-    th: { padding: '12px 20px', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '0.5px', color: '#475569', textAlign: 'left', fontWeight: '600' },
+    th: { padding: '12px 20px', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '0.5px', color: '#475569', fontWeight: '600' },
     tableRow: { borderBottom: '1px solid #e2e8f0' },
     td: { padding: '12px 20px', color: '#334155', textAlign: 'left' },
     officeCell: { padding: '12px', color: '#16a34a', backgroundColor: '#f0fdf4', fontWeight: '500', textAlign: 'center' },

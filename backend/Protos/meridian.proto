@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "backend.Protos";
+
+package meridian;
+
+service EmployeeRpcService {
+  rpc GetEmployees (EmptyRequest) returns (stream EmployeeListResponse);
+}
+
+message EmptyRequest {}
+
+// Sub-message representing department details
+message DepartmentResponse {
+  int32 id = 1;
+  string name = 2;
+}
+
+// Sub-message representing the weekly hybrid work distribution
+message HybridScheduleResponse {
+  bool monday = 1;
+  bool tuesday = 2;
+  bool wednesday = 3;
+  bool thursday = 4;
+  bool friday = 5;
+}
+
+// Main employee message containing composition links to department and schedule
+message EmployeeResponse {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string slack_handle = 4;
+  string hire_date = 5;
+
+  DepartmentResponse department = 6;
+  HybridScheduleResponse hybrid_schedule = 7;
+}
+
+message EmployeeListResponse {
+  repeated EmployeeResponse employees = 1;
+}
