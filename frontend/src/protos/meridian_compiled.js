@@ -295,6 +295,47 @@ export const meridian = $root.meridian = (() => {
             responseStream: { value: $undefined }
         });
 
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#getMeetings}.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef GetMeetingsCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {meridian.MeetingListResponse} [response] MeetingListResponse
+         */
+
+        /**
+         * Calls GetMeetings.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef GetMeetings
+         * @type {{
+         *   (request: meridian.IMeetingRequest, callback: meridian.EmployeeRpcService.GetMeetingsCallback): void;
+         *   (request: meridian.IMeetingRequest): Promise<meridian.MeetingListResponse>;
+         *   readonly name: "GetMeetings";
+         *   readonly path: "/meridian.EmployeeRpcService/GetMeetings";
+         *   readonly requestType: "MeetingRequest";
+         *   readonly responseType: "MeetingListResponse";
+         *   readonly requestStream: undefined;
+         *   readonly responseStream: undefined;
+         * }}
+         */
+
+        /**
+         * Calls GetMeetings.
+         * @name meridian.EmployeeRpcService#getMeetings
+         * @type {meridian.EmployeeRpcService.GetMeetings}
+         */
+        $Object.defineProperties(EmployeeRpcService.prototype.getMeetings = function(request, callback) {
+            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.getMeetings, $root.meridian.MeetingRequest, $root.meridian.MeetingListResponse, request, callback);
+        }, {
+            name: { value: "GetMeetings" },
+            path: { value: "/meridian.EmployeeRpcService/GetMeetings" },
+            requestType: { value: "MeetingRequest" },
+            responseType: { value: "MeetingListResponse" },
+            requestStream: { value: $undefined },
+            responseStream: { value: $undefined }
+        });
+
         return EmployeeRpcService;
     })();
 
@@ -4724,6 +4765,1003 @@ export const meridian = $root.meridian = (() => {
         };
 
         return ChatHistoryResponse;
+    })();
+
+    meridian.MeetingRequest = (function() {
+
+        /**
+         * Properties of a MeetingRequest.
+         * @typedef {Object} meridian.MeetingRequest.$Properties
+         * @property {number|null} [employeeId] MeetingRequest employeeId
+         * @property {string|null} [departmentName] MeetingRequest departmentName
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a MeetingRequest.
+         * @memberof meridian
+         * @interface IMeetingRequest
+         * @augments meridian.MeetingRequest.$Properties
+         * @deprecated Use meridian.MeetingRequest.$Properties instead.
+         */
+
+        /**
+         * Shape of a MeetingRequest.
+         * @typedef {meridian.MeetingRequest.$Properties} meridian.MeetingRequest.$Shape
+         */
+
+        /**
+         * Constructs a new MeetingRequest.
+         * @memberof meridian
+         * @classdesc Represents a MeetingRequest.
+         * @constructor
+         * @param {meridian.MeetingRequest.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const MeetingRequest = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * MeetingRequest employeeId.
+         * @member {number} employeeId
+         * @memberof meridian.MeetingRequest
+         * @instance
+         */
+        MeetingRequest.prototype.employeeId = 0;
+
+        /**
+         * MeetingRequest departmentName.
+         * @member {string} departmentName
+         * @memberof meridian.MeetingRequest
+         * @instance
+         */
+        MeetingRequest.prototype.departmentName = "";
+
+        /**
+         * Creates a new MeetingRequest instance using the specified properties.
+         * @function create
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {meridian.MeetingRequest.$Properties=} [properties] Properties to set
+         * @returns {meridian.MeetingRequest} MeetingRequest instance
+         * @type {{
+         *   (properties: meridian.MeetingRequest.$Shape): meridian.MeetingRequest & meridian.MeetingRequest.$Shape;
+         *   (properties?: meridian.MeetingRequest.$Properties): meridian.MeetingRequest;
+         * }}
+         */
+        MeetingRequest.create = function(properties) {
+            return new MeetingRequest(properties);
+        };
+
+        /**
+         * Encodes the specified MeetingRequest message. Does not implicitly {@link meridian.MeetingRequest.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {meridian.MeetingRequest.$Properties} message MeetingRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingRequest.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId") && message.employeeId !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.employeeId);
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName") && message.departmentName !== "")
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.departmentName);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MeetingRequest message, length delimited. Does not implicitly {@link meridian.MeetingRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {meridian.MeetingRequest.$Properties} message MeetingRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingRequest.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a MeetingRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.MeetingRequest & meridian.MeetingRequest.$Shape} MeetingRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingRequest.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.MeetingRequest(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.employeeId = value;
+                        else
+                            delete message.employeeId;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.departmentName = value;
+                        else
+                            delete message.departmentName;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a MeetingRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.MeetingRequest & meridian.MeetingRequest.$Shape} MeetingRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingRequest.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MeetingRequest message.
+         * @function verify
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MeetingRequest.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId"))
+                if (!$util.isInteger(message.employeeId))
+                    return "employeeId: integer expected";
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName"))
+                if (!$util.isString(message.departmentName))
+                    return "departmentName: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a MeetingRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.MeetingRequest} MeetingRequest
+         */
+        MeetingRequest.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.MeetingRequest)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.MeetingRequest: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.MeetingRequest();
+            if (object.employeeId != null)
+                if ($Number(object.employeeId) !== 0)
+                    message.employeeId = object.employeeId | 0;
+            if (object.departmentName != null)
+                if (typeof object.departmentName !== "string" || object.departmentName.length)
+                    message.departmentName = $String(object.departmentName);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MeetingRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {meridian.MeetingRequest} message MeetingRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MeetingRequest.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults) {
+                object.employeeId = 0;
+                object.departmentName = "";
+            }
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId"))
+                object.employeeId = message.employeeId;
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName"))
+                object.departmentName = message.departmentName;
+            return object;
+        };
+
+        /**
+         * Converts this MeetingRequest to JSON.
+         * @function toJSON
+         * @memberof meridian.MeetingRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MeetingRequest.prototype.toJSON = function() {
+            return MeetingRequest.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for MeetingRequest
+         * @function getTypeUrl
+         * @memberof meridian.MeetingRequest
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        MeetingRequest.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.MeetingRequest";
+        };
+
+        return MeetingRequest;
+    })();
+
+    meridian.MeetingMessage = (function() {
+
+        /**
+         * Properties of a MeetingMessage.
+         * @typedef {Object} meridian.MeetingMessage.$Properties
+         * @property {number|null} [id] MeetingMessage id
+         * @property {string|null} [title] MeetingMessage title
+         * @property {string|null} [departmentName] MeetingMessage departmentName
+         * @property {string|null} [timeString] MeetingMessage timeString
+         * @property {string|null} [meetLink] MeetingMessage meetLink
+         * @property {Array.<number>|null} [attendeeIds] MeetingMessage attendeeIds
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a MeetingMessage.
+         * @memberof meridian
+         * @interface IMeetingMessage
+         * @augments meridian.MeetingMessage.$Properties
+         * @deprecated Use meridian.MeetingMessage.$Properties instead.
+         */
+
+        /**
+         * Shape of a MeetingMessage.
+         * @typedef {meridian.MeetingMessage.$Properties} meridian.MeetingMessage.$Shape
+         */
+
+        /**
+         * Constructs a new MeetingMessage.
+         * @memberof meridian
+         * @classdesc Represents a MeetingMessage.
+         * @constructor
+         * @param {meridian.MeetingMessage.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const MeetingMessage = function (properties) {
+            this.attendeeIds = [];
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * MeetingMessage id.
+         * @member {number} id
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.id = 0;
+
+        /**
+         * MeetingMessage title.
+         * @member {string} title
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.title = "";
+
+        /**
+         * MeetingMessage departmentName.
+         * @member {string} departmentName
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.departmentName = "";
+
+        /**
+         * MeetingMessage timeString.
+         * @member {string} timeString
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.timeString = "";
+
+        /**
+         * MeetingMessage meetLink.
+         * @member {string} meetLink
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.meetLink = "";
+
+        /**
+         * MeetingMessage attendeeIds.
+         * @member {Array.<number>} attendeeIds
+         * @memberof meridian.MeetingMessage
+         * @instance
+         */
+        MeetingMessage.prototype.attendeeIds = $util.emptyArray;
+
+        /**
+         * Creates a new MeetingMessage instance using the specified properties.
+         * @function create
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {meridian.MeetingMessage.$Properties=} [properties] Properties to set
+         * @returns {meridian.MeetingMessage} MeetingMessage instance
+         * @type {{
+         *   (properties: meridian.MeetingMessage.$Shape): meridian.MeetingMessage & meridian.MeetingMessage.$Shape;
+         *   (properties?: meridian.MeetingMessage.$Properties): meridian.MeetingMessage;
+         * }}
+         */
+        MeetingMessage.create = function(properties) {
+            return new MeetingMessage(properties);
+        };
+
+        /**
+         * Encodes the specified MeetingMessage message. Does not implicitly {@link meridian.MeetingMessage.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {meridian.MeetingMessage.$Properties} message MeetingMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingMessage.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
+            if (message.title != null && $Object.hasOwnProperty.call(message, "title") && message.title !== "")
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.title);
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName") && message.departmentName !== "")
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.departmentName);
+            if (message.timeString != null && $Object.hasOwnProperty.call(message, "timeString") && message.timeString !== "")
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.timeString);
+            if (message.meetLink != null && $Object.hasOwnProperty.call(message, "meetLink") && message.meetLink !== "")
+                writer.uint32(/* id 5, wireType 2 =*/42).string(message.meetLink);
+            if (message.attendeeIds != null && message.attendeeIds.length) {
+                writer.uint32(/* id 6, wireType 2 =*/50).fork();
+                for (let i = 0; i < message.attendeeIds.length; ++i)
+                    writer.int32(message.attendeeIds[i]);
+                writer.ldelim();
+            }
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MeetingMessage message, length delimited. Does not implicitly {@link meridian.MeetingMessage.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {meridian.MeetingMessage.$Properties} message MeetingMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingMessage.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a MeetingMessage message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.MeetingMessage & meridian.MeetingMessage.$Shape} MeetingMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingMessage.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.MeetingMessage(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.id = value;
+                        else
+                            delete message.id;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.title = value;
+                        else
+                            delete message.title;
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.departmentName = value;
+                        else
+                            delete message.departmentName;
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.timeString = value;
+                        else
+                            delete message.timeString;
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.meetLink = value;
+                        else
+                            delete message.meetLink;
+                        continue;
+                    }
+                case 6: {
+                        if (wireType === 2) {
+                            if (!(message.attendeeIds && message.attendeeIds.length))
+                                message.attendeeIds = [];
+                            let end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.attendeeIds.push(reader.int32());
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
+                        if (!(message.attendeeIds && message.attendeeIds.length))
+                            message.attendeeIds = [];
+                        message.attendeeIds.push(reader.int32());
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a MeetingMessage message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.MeetingMessage & meridian.MeetingMessage.$Shape} MeetingMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingMessage.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MeetingMessage message.
+         * @function verify
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MeetingMessage.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
+                if (!$util.isInteger(message.id))
+                    return "id: integer expected";
+            if (message.title != null && $Object.hasOwnProperty.call(message, "title"))
+                if (!$util.isString(message.title))
+                    return "title: string expected";
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName"))
+                if (!$util.isString(message.departmentName))
+                    return "departmentName: string expected";
+            if (message.timeString != null && $Object.hasOwnProperty.call(message, "timeString"))
+                if (!$util.isString(message.timeString))
+                    return "timeString: string expected";
+            if (message.meetLink != null && $Object.hasOwnProperty.call(message, "meetLink"))
+                if (!$util.isString(message.meetLink))
+                    return "meetLink: string expected";
+            if (message.attendeeIds != null && $Object.hasOwnProperty.call(message, "attendeeIds")) {
+                if (!$Array.isArray(message.attendeeIds))
+                    return "attendeeIds: array expected";
+                for (let i = 0; i < message.attendeeIds.length; ++i)
+                    if (!$util.isInteger(message.attendeeIds[i]))
+                        return "attendeeIds: integer[] expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MeetingMessage message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.MeetingMessage} MeetingMessage
+         */
+        MeetingMessage.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.MeetingMessage)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.MeetingMessage: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.MeetingMessage();
+            if (object.id != null)
+                if ($Number(object.id) !== 0)
+                    message.id = object.id | 0;
+            if (object.title != null)
+                if (typeof object.title !== "string" || object.title.length)
+                    message.title = $String(object.title);
+            if (object.departmentName != null)
+                if (typeof object.departmentName !== "string" || object.departmentName.length)
+                    message.departmentName = $String(object.departmentName);
+            if (object.timeString != null)
+                if (typeof object.timeString !== "string" || object.timeString.length)
+                    message.timeString = $String(object.timeString);
+            if (object.meetLink != null)
+                if (typeof object.meetLink !== "string" || object.meetLink.length)
+                    message.meetLink = $String(object.meetLink);
+            if (object.attendeeIds) {
+                if (!$Array.isArray(object.attendeeIds))
+                    throw $TypeError(".meridian.MeetingMessage.attendeeIds: array expected");
+                message.attendeeIds = $Array(object.attendeeIds.length);
+                for (let i = 0; i < object.attendeeIds.length; ++i)
+                    message.attendeeIds[i] = object.attendeeIds[i] | 0;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MeetingMessage message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {meridian.MeetingMessage} message MeetingMessage
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MeetingMessage.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.attendeeIds = [];
+            if (options.defaults) {
+                object.id = 0;
+                object.title = "";
+                object.departmentName = "";
+                object.timeString = "";
+                object.meetLink = "";
+            }
+            if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
+                object.id = message.id;
+            if (message.title != null && $Object.hasOwnProperty.call(message, "title"))
+                object.title = message.title;
+            if (message.departmentName != null && $Object.hasOwnProperty.call(message, "departmentName"))
+                object.departmentName = message.departmentName;
+            if (message.timeString != null && $Object.hasOwnProperty.call(message, "timeString"))
+                object.timeString = message.timeString;
+            if (message.meetLink != null && $Object.hasOwnProperty.call(message, "meetLink"))
+                object.meetLink = message.meetLink;
+            if (message.attendeeIds && message.attendeeIds.length) {
+                object.attendeeIds = $Array(message.attendeeIds.length);
+                for (let j = 0; j < message.attendeeIds.length; ++j)
+                    object.attendeeIds[j] = message.attendeeIds[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this MeetingMessage to JSON.
+         * @function toJSON
+         * @memberof meridian.MeetingMessage
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MeetingMessage.prototype.toJSON = function() {
+            return MeetingMessage.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for MeetingMessage
+         * @function getTypeUrl
+         * @memberof meridian.MeetingMessage
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        MeetingMessage.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.MeetingMessage";
+        };
+
+        return MeetingMessage;
+    })();
+
+    meridian.MeetingListResponse = (function() {
+
+        /**
+         * Properties of a MeetingListResponse.
+         * @typedef {Object} meridian.MeetingListResponse.$Properties
+         * @property {Array.<meridian.MeetingMessage.$Properties>|null} [meetings] MeetingListResponse meetings
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a MeetingListResponse.
+         * @memberof meridian
+         * @interface IMeetingListResponse
+         * @augments meridian.MeetingListResponse.$Properties
+         * @deprecated Use meridian.MeetingListResponse.$Properties instead.
+         */
+
+        /**
+         * Shape of a MeetingListResponse.
+         * @typedef {meridian.MeetingListResponse.$Properties} meridian.MeetingListResponse.$Shape
+         */
+
+        /**
+         * Constructs a new MeetingListResponse.
+         * @memberof meridian
+         * @classdesc Represents a MeetingListResponse.
+         * @constructor
+         * @param {meridian.MeetingListResponse.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const MeetingListResponse = function (properties) {
+            this.meetings = [];
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * MeetingListResponse meetings.
+         * @member {Array.<meridian.MeetingMessage.$Properties>} meetings
+         * @memberof meridian.MeetingListResponse
+         * @instance
+         */
+        MeetingListResponse.prototype.meetings = $util.emptyArray;
+
+        /**
+         * Creates a new MeetingListResponse instance using the specified properties.
+         * @function create
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {meridian.MeetingListResponse.$Properties=} [properties] Properties to set
+         * @returns {meridian.MeetingListResponse} MeetingListResponse instance
+         * @type {{
+         *   (properties: meridian.MeetingListResponse.$Shape): meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape;
+         *   (properties?: meridian.MeetingListResponse.$Properties): meridian.MeetingListResponse;
+         * }}
+         */
+        MeetingListResponse.create = function(properties) {
+            return new MeetingListResponse(properties);
+        };
+
+        /**
+         * Encodes the specified MeetingListResponse message. Does not implicitly {@link meridian.MeetingListResponse.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {meridian.MeetingListResponse.$Properties} message MeetingListResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingListResponse.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.meetings != null && message.meetings.length)
+                for (let i = 0; i < message.meetings.length; ++i)
+                    $root.meridian.MeetingMessage.encode(message.meetings[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MeetingListResponse message, length delimited. Does not implicitly {@link meridian.MeetingListResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {meridian.MeetingListResponse.$Properties} message MeetingListResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MeetingListResponse.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a MeetingListResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape} MeetingListResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingListResponse.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.MeetingListResponse();
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.meetings && message.meetings.length))
+                            message.meetings = [];
+                        message.meetings.push($root.meridian.MeetingMessage.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a MeetingListResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape} MeetingListResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MeetingListResponse.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MeetingListResponse message.
+         * @function verify
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MeetingListResponse.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.meetings != null && $Object.hasOwnProperty.call(message, "meetings")) {
+                if (!$Array.isArray(message.meetings))
+                    return "meetings: array expected";
+                for (let i = 0; i < message.meetings.length; ++i) {
+                    let error = $root.meridian.MeetingMessage.verify(message.meetings[i], _depth + 1);
+                    if (error)
+                        return "meetings." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MeetingListResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.MeetingListResponse} MeetingListResponse
+         */
+        MeetingListResponse.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.MeetingListResponse)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.MeetingListResponse: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.MeetingListResponse();
+            if (object.meetings) {
+                if (!$Array.isArray(object.meetings))
+                    throw $TypeError(".meridian.MeetingListResponse.meetings: array expected");
+                message.meetings = $Array(object.meetings.length);
+                for (let i = 0; i < object.meetings.length; ++i) {
+                    if (!$util.isObject(object.meetings[i]))
+                        throw $TypeError(".meridian.MeetingListResponse.meetings: object expected");
+                    message.meetings[i] = $root.meridian.MeetingMessage.fromObject(object.meetings[i], _depth + 1);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MeetingListResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {meridian.MeetingListResponse} message MeetingListResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MeetingListResponse.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.meetings = [];
+            if (message.meetings && message.meetings.length) {
+                object.meetings = $Array(message.meetings.length);
+                for (let j = 0; j < message.meetings.length; ++j)
+                    object.meetings[j] = $root.meridian.MeetingMessage.toObject(message.meetings[j], options, _depth + 1);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this MeetingListResponse to JSON.
+         * @function toJSON
+         * @memberof meridian.MeetingListResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MeetingListResponse.prototype.toJSON = function() {
+            return MeetingListResponse.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for MeetingListResponse
+         * @function getTypeUrl
+         * @memberof meridian.MeetingListResponse
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        MeetingListResponse.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.MeetingListResponse";
+        };
+
+        return MeetingListResponse;
     })();
 
     return meridian;

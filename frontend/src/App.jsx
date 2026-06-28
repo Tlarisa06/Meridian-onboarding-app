@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import EmployeeTable from './components/EmployeeTable';
 import HybridScheduleTable from './components/HybridScheduleTable';
 import MySchedule from './components/MySchedule';
+import MeetingSchedule from './components/MeetingSchedule';
 import styles from './styles/appStyles';
 
 function App() {
@@ -118,7 +119,11 @@ function App() {
                 const loggedInUser = {
                     id: Number(rawEmp.id ?? rawEmp.Id ?? 0),
                     firstName: rawEmp.firstName ?? rawEmp.FirstName ?? rawEmp.first_name ?? "",
-                    lastName: rawEmp.lastName ?? rawEmp.LastName ?? rawEmp.last_name ?? ""
+                    lastName: rawEmp.lastName ?? rawEmp.LastName ?? rawEmp.last_name ?? "",
+                    department: rawEmp.department ? {
+                        id: Number(rawEmp.department.id ?? rawEmp.department.Id ?? 0),
+                        name: rawEmp.department.name ?? rawEmp.department.Name ?? ""
+                    } : null
                 };
                 setUser(loggedInUser);
             } else {
@@ -205,11 +210,18 @@ function App() {
                     >
                         ⚙️ My Schedule
                     </button>
+                    <button
+                        style={activeTab === 'meetings' ? styles.activeTabButton : styles.tabButton}
+                        onClick={() => setActiveTab('meetings')}
+                    >
+                        🎥 Google Meet Schedule
+                    </button>
                 </div>
 
                 {activeTab === 'departments' && <EmployeeTable employees={employees} onOpenChat={setActiveChatTarget} />}
                 {activeTab === 'schedule' && <HybridScheduleTable employees={employees} />}
                 {activeTab === 'my-schedule' && <MySchedule employees={employees} loggedInUser={user} />}
+                {activeTab === 'meetings' && <MeetingSchedule loggedInUser={user} employees={employees} />}
             </div>
 
             {/* Collapsible sidebar chat panel integration */}

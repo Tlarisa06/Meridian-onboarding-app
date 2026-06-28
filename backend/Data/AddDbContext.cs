@@ -14,6 +14,9 @@ public class AppDbContext : DbContext
     public DbSet<Employee> Employees { get; set; }
     public DbSet<ChatMessage> ChatMessages { get; set; }
     public DbSet<HybridSchedule> HybridSchedules { get; set; }
+    
+    // Register the new meetings infrastructure table
+    public DbSet<Meeting> Meetings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -41,6 +41,9 @@ export namespace meridian {
 
         /** Calls GetChatHistory. */
         getChatHistory: meridian.EmployeeRpcService.GetChatHistory;
+
+        /** Calls GetMeetings. */
+        getMeetings: meridian.EmployeeRpcService.GetMeetings;
     }
 
     namespace EmployeeRpcService {
@@ -155,6 +158,25 @@ export namespace meridian {
           readonly path: "/meridian.EmployeeRpcService/GetChatHistory";
           readonly requestType: "ChatHistoryRequest";
           readonly responseType: "ChatHistoryResponse";
+          readonly requestStream: undefined;
+          readonly responseStream: undefined;
+        };
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#getMeetings}.
+         * @param error Error, if any
+         * @param [response] MeetingListResponse
+         */
+        type GetMeetingsCallback = (error: (Error|null), response?: meridian.MeetingListResponse) => void;
+
+        /** Calls GetMeetings. */
+        type GetMeetings = {
+          (request: meridian.IMeetingRequest, callback: meridian.EmployeeRpcService.GetMeetingsCallback): void;
+          (request: meridian.IMeetingRequest): Promise<meridian.MeetingListResponse>;
+          readonly name: "GetMeetings";
+          readonly path: "/meridian.EmployeeRpcService/GetMeetings";
+          readonly requestType: "MeetingRequest";
+          readonly responseType: "MeetingListResponse";
           readonly requestStream: undefined;
           readonly responseStream: undefined;
         };
@@ -1952,5 +1974,392 @@ export namespace meridian {
 
         /** Shape of a ChatHistoryResponse. */
         type $Shape = meridian.ChatHistoryResponse.$Properties;
+    }
+
+    /**
+     * Properties of a MeetingRequest.
+     * @deprecated Use meridian.MeetingRequest.$Properties instead.
+     */
+    interface IMeetingRequest extends meridian.MeetingRequest.$Properties {
+    }
+
+    /** Represents a MeetingRequest. */
+    class MeetingRequest {
+
+        /**
+         * Constructs a new MeetingRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.MeetingRequest.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** MeetingRequest employeeId. */
+        employeeId: number;
+
+        /** MeetingRequest departmentName. */
+        departmentName: string;
+
+        /**
+         * Creates a new MeetingRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns MeetingRequest instance
+         */
+        static create(properties: meridian.MeetingRequest.$Shape): meridian.MeetingRequest & meridian.MeetingRequest.$Shape;
+        static create(properties?: meridian.MeetingRequest.$Properties): meridian.MeetingRequest;
+
+        /**
+         * Encodes the specified MeetingRequest message. Does not implicitly {@link meridian.MeetingRequest.verify|verify} messages.
+         * @param message MeetingRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.MeetingRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified MeetingRequest message, length delimited. Does not implicitly {@link meridian.MeetingRequest.verify|verify} messages.
+         * @param message MeetingRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.MeetingRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a MeetingRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.MeetingRequest & meridian.MeetingRequest.$Shape} MeetingRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.MeetingRequest & meridian.MeetingRequest.$Shape;
+
+        /**
+         * Decodes a MeetingRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.MeetingRequest & meridian.MeetingRequest.$Shape} MeetingRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.MeetingRequest & meridian.MeetingRequest.$Shape;
+
+        /**
+         * Verifies a MeetingRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a MeetingRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns MeetingRequest
+         */
+        static fromObject(object: { [k: string]: any }): meridian.MeetingRequest;
+
+        /**
+         * Creates a plain object from a MeetingRequest message. Also converts values to other types if specified.
+         * @param message MeetingRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.MeetingRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this MeetingRequest to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for MeetingRequest
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace MeetingRequest {
+
+        /** Properties of a MeetingRequest. */
+        interface $Properties {
+
+            /** MeetingRequest employeeId */
+            employeeId?: (number|null);
+
+            /** MeetingRequest departmentName */
+            departmentName?: (string|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a MeetingRequest. */
+        type $Shape = meridian.MeetingRequest.$Properties;
+    }
+
+    /**
+     * Properties of a MeetingMessage.
+     * @deprecated Use meridian.MeetingMessage.$Properties instead.
+     */
+    interface IMeetingMessage extends meridian.MeetingMessage.$Properties {
+    }
+
+    /** Represents a MeetingMessage. */
+    class MeetingMessage {
+
+        /**
+         * Constructs a new MeetingMessage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.MeetingMessage.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** MeetingMessage id. */
+        id: number;
+
+        /** MeetingMessage title. */
+        title: string;
+
+        /** MeetingMessage departmentName. */
+        departmentName: string;
+
+        /** MeetingMessage timeString. */
+        timeString: string;
+
+        /** MeetingMessage meetLink. */
+        meetLink: string;
+
+        /** MeetingMessage attendeeIds. */
+        attendeeIds: number[];
+
+        /**
+         * Creates a new MeetingMessage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns MeetingMessage instance
+         */
+        static create(properties: meridian.MeetingMessage.$Shape): meridian.MeetingMessage & meridian.MeetingMessage.$Shape;
+        static create(properties?: meridian.MeetingMessage.$Properties): meridian.MeetingMessage;
+
+        /**
+         * Encodes the specified MeetingMessage message. Does not implicitly {@link meridian.MeetingMessage.verify|verify} messages.
+         * @param message MeetingMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.MeetingMessage.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified MeetingMessage message, length delimited. Does not implicitly {@link meridian.MeetingMessage.verify|verify} messages.
+         * @param message MeetingMessage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.MeetingMessage.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a MeetingMessage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.MeetingMessage & meridian.MeetingMessage.$Shape} MeetingMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.MeetingMessage & meridian.MeetingMessage.$Shape;
+
+        /**
+         * Decodes a MeetingMessage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.MeetingMessage & meridian.MeetingMessage.$Shape} MeetingMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.MeetingMessage & meridian.MeetingMessage.$Shape;
+
+        /**
+         * Verifies a MeetingMessage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a MeetingMessage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns MeetingMessage
+         */
+        static fromObject(object: { [k: string]: any }): meridian.MeetingMessage;
+
+        /**
+         * Creates a plain object from a MeetingMessage message. Also converts values to other types if specified.
+         * @param message MeetingMessage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.MeetingMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this MeetingMessage to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for MeetingMessage
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace MeetingMessage {
+
+        /** Properties of a MeetingMessage. */
+        interface $Properties {
+
+            /** MeetingMessage id */
+            id?: (number|null);
+
+            /** MeetingMessage title */
+            title?: (string|null);
+
+            /** MeetingMessage departmentName */
+            departmentName?: (string|null);
+
+            /** MeetingMessage timeString */
+            timeString?: (string|null);
+
+            /** MeetingMessage meetLink */
+            meetLink?: (string|null);
+
+            /** MeetingMessage attendeeIds */
+            attendeeIds?: (number[]|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a MeetingMessage. */
+        type $Shape = meridian.MeetingMessage.$Properties;
+    }
+
+    /**
+     * Properties of a MeetingListResponse.
+     * @deprecated Use meridian.MeetingListResponse.$Properties instead.
+     */
+    interface IMeetingListResponse extends meridian.MeetingListResponse.$Properties {
+    }
+
+    /** Represents a MeetingListResponse. */
+    class MeetingListResponse {
+
+        /**
+         * Constructs a new MeetingListResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.MeetingListResponse.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** MeetingListResponse meetings. */
+        meetings: meridian.MeetingMessage.$Properties[];
+
+        /**
+         * Creates a new MeetingListResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns MeetingListResponse instance
+         */
+        static create(properties: meridian.MeetingListResponse.$Shape): meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape;
+        static create(properties?: meridian.MeetingListResponse.$Properties): meridian.MeetingListResponse;
+
+        /**
+         * Encodes the specified MeetingListResponse message. Does not implicitly {@link meridian.MeetingListResponse.verify|verify} messages.
+         * @param message MeetingListResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.MeetingListResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified MeetingListResponse message, length delimited. Does not implicitly {@link meridian.MeetingListResponse.verify|verify} messages.
+         * @param message MeetingListResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.MeetingListResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a MeetingListResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape} MeetingListResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape;
+
+        /**
+         * Decodes a MeetingListResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape} MeetingListResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.MeetingListResponse & meridian.MeetingListResponse.$Shape;
+
+        /**
+         * Verifies a MeetingListResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a MeetingListResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns MeetingListResponse
+         */
+        static fromObject(object: { [k: string]: any }): meridian.MeetingListResponse;
+
+        /**
+         * Creates a plain object from a MeetingListResponse message. Also converts values to other types if specified.
+         * @param message MeetingListResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.MeetingListResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this MeetingListResponse to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for MeetingListResponse
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace MeetingListResponse {
+
+        /** Properties of a MeetingListResponse. */
+        interface $Properties {
+
+            /** MeetingListResponse meetings */
+            meetings?: (meridian.MeetingMessage.$Properties[]|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a MeetingListResponse. */
+        type $Shape = meridian.MeetingListResponse.$Properties;
     }
 }

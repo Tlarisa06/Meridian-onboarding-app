@@ -14,6 +14,8 @@ service EmployeeRpcService {
   rpc SendMessage(ChatMessageRequest) returns (ChatWindowResponse);
   rpc ListenMessages(UserHeartbeatRequest) returns (stream ChatMessageResponse);
   rpc GetChatHistory(ChatHistoryRequest) returns (ChatHistoryResponse);
+
+  rpc GetMeetings (MeetingRequest) returns (MeetingListResponse);
 }
 
 message EmptyRequest {}
@@ -98,4 +100,22 @@ message ChatHistoryRequest {
 
 message ChatHistoryResponse {
   repeated ChatMessageResponse messages = 1;
+}
+
+message MeetingRequest {
+  int32 employee_id = 1;
+  string department_name = 2;
+}
+
+message MeetingMessage {
+  int32 id = 1;
+  string title = 2;
+  string department_name = 3;
+  string time_string = 4;
+  string meet_link = 5;
+  repeated int32 attendee_ids = 6;
+}
+
+message MeetingListResponse {
+  repeated MeetingMessage meetings = 1;
 }

@@ -1,4 +1,5 @@
 using backend.Data;
+using backend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,11 @@ builder.Services.AddOpenApi();
 // Register the database infrastructure layer with SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=meridian.db"));
+
+// Register Domain Infrastructure Services for Dependency Injection
+builder.Services.AddScoped<DirectoryService>();
+builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<MeetingService>();
 
 var app = builder.Build();
 

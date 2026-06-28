@@ -6,7 +6,8 @@
 
 ## About the Data
 * **Source:** Initial corporate roster is pre-seeded based on the 200 existing employees.
-* **Updates:** Hybrid schedules are maintained directly by the employees. Any schedule changes (swaps) or newly exchanged chat messages trigger instant, real-time updates across the app via live gRPC streams without requiring manual page refreshes.
+* **Meetings Baseline:** The initial onboarding timeline and sync events are pre-seeded natively in the database, automatically aligning global company checkpoints, specific department meetings, and individual 1-on-1 mentorship sessions on day one.
+* **Updates:** Hybrid schedules are maintained directly by the employees. Any schedule changes (swaps), newly exchanged chat messages, or updated calendar tracks trigger instant, real-time updates across the app via live gRPC streams without requiring manual page refreshes.
 
 ## About the Context
 * **Access:** New hires access the application locally on their first working day.

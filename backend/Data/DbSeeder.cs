@@ -118,6 +118,50 @@ public static class DbSeeder
             }
         }
 
+        // ==========================================
+        // SEED MEETINGS DATA FOR GOOGLE MEET TAB
+        // ==========================================
+        if (!context.Meetings.Any())
+        {
+            context.Meetings.AddRange(
+                // 🏢 Left Side: Global / Department Synchronization
+                new Meeting
+                {
+                    Title = "Meridian All-Hands Company Update",
+                    DepartmentName = "All",
+                    TimeString = "09:00 - 09:45",
+                    MeetLink = "https://meet.google.com/qwe-rtyu-iop",
+                    AttendeeIds = ""
+                },
+                new Meeting
+                {
+                    Title = "Engineering Architecture & Standup Sync",
+                    DepartmentName = "Engineering",
+                    TimeString = "11:00 - 11:45",
+                    MeetLink = "https://meet.google.com/eng-arch-sync",
+                    AttendeeIds = ""
+                },
+
+                // 👤 Right Side: Personalized Onboarding Calendar (Larisa & Dani)
+                new Meeting
+                {
+                    Title = "Onboarding Welcome & IT Tools Set Up",
+                    DepartmentName = "None",
+                    TimeString = "10:00 - 10:45",
+                    MeetLink = "https://meet.google.com/it-setup-room",
+                    AttendeeIds = "1,2" // Explicit targets matching hardcoded test account IDs
+                },
+                new Meeting
+                {
+                    Title = "1-on-1 Mentorship & First Code Review",
+                    DepartmentName = "None",
+                    TimeString = "14:30 - 15:15",
+                    MeetLink = "https://meet.google.com/mentor-review-session",
+                    AttendeeIds = "1" // Target link directly for Larisa
+                }
+            );
+        }
+
         // Final save context sweep for dependent tracking collection blocks
         context.SaveChanges();
     }

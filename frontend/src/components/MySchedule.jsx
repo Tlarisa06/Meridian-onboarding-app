@@ -1,6 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { updateHybridSchedule } from '../services/employeeRpcService';
-
+import { updateHybridSchedule } from "../services/directoryRpcService";
 export default function MySchedule({ employees, loggedInUser }) {
     const [activeSwap, setActiveSwap] = useState(null);
 
