@@ -32,6 +32,15 @@ export namespace meridian {
 
         /** Calls GetEmployees. */
         getEmployees: meridian.EmployeeRpcService.GetEmployees;
+
+        /** Calls SendMessage. */
+        sendMessage: meridian.EmployeeRpcService.SendMessage;
+
+        /** Calls ListenMessages. */
+        listenMessages: meridian.EmployeeRpcService.ListenMessages;
+
+        /** Calls GetChatHistory. */
+        getChatHistory: meridian.EmployeeRpcService.GetChatHistory;
     }
 
     namespace EmployeeRpcService {
@@ -83,14 +92,71 @@ export namespace meridian {
 
         /** Calls GetEmployees. */
         type GetEmployees = {
-          (request: meridian.IEmptyRequest, callback: meridian.EmployeeRpcService.GetEmployeesCallback): void;
-          (request: meridian.IEmptyRequest): Promise<meridian.EmployeeListResponse>;
+          (request: meridian.IUserHeartbeatRequest, callback: meridian.EmployeeRpcService.GetEmployeesCallback): void;
+          (request: meridian.IUserHeartbeatRequest): Promise<meridian.EmployeeListResponse>;
           readonly name: "GetEmployees";
           readonly path: "/meridian.EmployeeRpcService/GetEmployees";
-          readonly requestType: "EmptyRequest";
+          readonly requestType: "UserHeartbeatRequest";
           readonly responseType: "EmployeeListResponse";
           readonly requestStream: undefined;
           readonly responseStream: true;
+        };
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#sendMessage}.
+         * @param error Error, if any
+         * @param [response] ChatWindowResponse
+         */
+        type SendMessageCallback = (error: (Error|null), response?: meridian.ChatWindowResponse) => void;
+
+        /** Calls SendMessage. */
+        type SendMessage = {
+          (request: meridian.IChatMessageRequest, callback: meridian.EmployeeRpcService.SendMessageCallback): void;
+          (request: meridian.IChatMessageRequest): Promise<meridian.ChatWindowResponse>;
+          readonly name: "SendMessage";
+          readonly path: "/meridian.EmployeeRpcService/SendMessage";
+          readonly requestType: "ChatMessageRequest";
+          readonly responseType: "ChatWindowResponse";
+          readonly requestStream: undefined;
+          readonly responseStream: undefined;
+        };
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#listenMessages}.
+         * @param error Error, if any
+         * @param [response] ChatMessageResponse
+         */
+        type ListenMessagesCallback = (error: (Error|null), response?: meridian.ChatMessageResponse) => void;
+
+        /** Calls ListenMessages. */
+        type ListenMessages = {
+          (request: meridian.IUserHeartbeatRequest, callback: meridian.EmployeeRpcService.ListenMessagesCallback): void;
+          (request: meridian.IUserHeartbeatRequest): Promise<meridian.ChatMessageResponse>;
+          readonly name: "ListenMessages";
+          readonly path: "/meridian.EmployeeRpcService/ListenMessages";
+          readonly requestType: "UserHeartbeatRequest";
+          readonly responseType: "ChatMessageResponse";
+          readonly requestStream: undefined;
+          readonly responseStream: true;
+        };
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#getChatHistory}.
+         * @param error Error, if any
+         * @param [response] ChatHistoryResponse
+         */
+        type GetChatHistoryCallback = (error: (Error|null), response?: meridian.ChatHistoryResponse) => void;
+
+        /** Calls GetChatHistory. */
+        type GetChatHistory = {
+          (request: meridian.IChatHistoryRequest, callback: meridian.EmployeeRpcService.GetChatHistoryCallback): void;
+          (request: meridian.IChatHistoryRequest): Promise<meridian.ChatHistoryResponse>;
+          readonly name: "GetChatHistory";
+          readonly path: "/meridian.EmployeeRpcService/GetChatHistory";
+          readonly requestType: "ChatHistoryRequest";
+          readonly responseType: "ChatHistoryResponse";
+          readonly requestStream: undefined;
+          readonly responseStream: undefined;
         };
     }
 
@@ -203,6 +269,123 @@ export namespace meridian {
 
         /** Shape of an EmptyRequest. */
         type $Shape = meridian.EmptyRequest.$Properties;
+    }
+
+    /**
+     * Properties of a UserHeartbeatRequest.
+     * @deprecated Use meridian.UserHeartbeatRequest.$Properties instead.
+     */
+    interface IUserHeartbeatRequest extends meridian.UserHeartbeatRequest.$Properties {
+    }
+
+    /** Represents a UserHeartbeatRequest. */
+    class UserHeartbeatRequest {
+
+        /**
+         * Constructs a new UserHeartbeatRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.UserHeartbeatRequest.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** UserHeartbeatRequest employeeId. */
+        employeeId: number;
+
+        /**
+         * Creates a new UserHeartbeatRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UserHeartbeatRequest instance
+         */
+        static create(properties: meridian.UserHeartbeatRequest.$Shape): meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape;
+        static create(properties?: meridian.UserHeartbeatRequest.$Properties): meridian.UserHeartbeatRequest;
+
+        /**
+         * Encodes the specified UserHeartbeatRequest message. Does not implicitly {@link meridian.UserHeartbeatRequest.verify|verify} messages.
+         * @param message UserHeartbeatRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.UserHeartbeatRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UserHeartbeatRequest message, length delimited. Does not implicitly {@link meridian.UserHeartbeatRequest.verify|verify} messages.
+         * @param message UserHeartbeatRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.UserHeartbeatRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UserHeartbeatRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape} UserHeartbeatRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape;
+
+        /**
+         * Decodes a UserHeartbeatRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape} UserHeartbeatRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape;
+
+        /**
+         * Verifies a UserHeartbeatRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a UserHeartbeatRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UserHeartbeatRequest
+         */
+        static fromObject(object: { [k: string]: any }): meridian.UserHeartbeatRequest;
+
+        /**
+         * Creates a plain object from a UserHeartbeatRequest message. Also converts values to other types if specified.
+         * @param message UserHeartbeatRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.UserHeartbeatRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this UserHeartbeatRequest to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for UserHeartbeatRequest
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace UserHeartbeatRequest {
+
+        /** Properties of a UserHeartbeatRequest. */
+        interface $Properties {
+
+            /** UserHeartbeatRequest employeeId */
+            employeeId?: (number|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a UserHeartbeatRequest. */
+        type $Shape = meridian.UserHeartbeatRequest.$Properties;
     }
 
     /**
@@ -509,6 +692,9 @@ export namespace meridian {
         /** EmployeeResponse hybridSchedule. */
         hybridSchedule?: (meridian.HybridScheduleResponse.$Properties|null);
 
+        /** EmployeeResponse isOnline. */
+        isOnline: boolean;
+
         /**
          * Creates a new EmployeeResponse instance using the specified properties.
          * @param [properties] Properties to set
@@ -613,6 +799,9 @@ export namespace meridian {
 
             /** EmployeeResponse hybridSchedule */
             hybridSchedule?: (meridian.HybridScheduleResponse.$Properties|null);
+
+            /** EmployeeResponse isOnline */
+            isOnline?: (boolean|null);
 
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
@@ -1142,5 +1331,626 @@ export namespace meridian {
 
         /** Shape of an UpdateScheduleRequest. */
         type $Shape = meridian.UpdateScheduleRequest.$Properties;
+    }
+
+    /**
+     * Properties of a ChatMessageRequest.
+     * @deprecated Use meridian.ChatMessageRequest.$Properties instead.
+     */
+    interface IChatMessageRequest extends meridian.ChatMessageRequest.$Properties {
+    }
+
+    /** Represents a ChatMessageRequest. */
+    class ChatMessageRequest {
+
+        /**
+         * Constructs a new ChatMessageRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.ChatMessageRequest.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** ChatMessageRequest senderId. */
+        senderId: number;
+
+        /** ChatMessageRequest receiverId. */
+        receiverId: number;
+
+        /** ChatMessageRequest text. */
+        text: string;
+
+        /**
+         * Creates a new ChatMessageRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ChatMessageRequest instance
+         */
+        static create(properties: meridian.ChatMessageRequest.$Shape): meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape;
+        static create(properties?: meridian.ChatMessageRequest.$Properties): meridian.ChatMessageRequest;
+
+        /**
+         * Encodes the specified ChatMessageRequest message. Does not implicitly {@link meridian.ChatMessageRequest.verify|verify} messages.
+         * @param message ChatMessageRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.ChatMessageRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ChatMessageRequest message, length delimited. Does not implicitly {@link meridian.ChatMessageRequest.verify|verify} messages.
+         * @param message ChatMessageRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.ChatMessageRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ChatMessageRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape} ChatMessageRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape;
+
+        /**
+         * Decodes a ChatMessageRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape} ChatMessageRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape;
+
+        /**
+         * Verifies a ChatMessageRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ChatMessageRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ChatMessageRequest
+         */
+        static fromObject(object: { [k: string]: any }): meridian.ChatMessageRequest;
+
+        /**
+         * Creates a plain object from a ChatMessageRequest message. Also converts values to other types if specified.
+         * @param message ChatMessageRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.ChatMessageRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ChatMessageRequest to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for ChatMessageRequest
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace ChatMessageRequest {
+
+        /** Properties of a ChatMessageRequest. */
+        interface $Properties {
+
+            /** ChatMessageRequest senderId */
+            senderId?: (number|null);
+
+            /** ChatMessageRequest receiverId */
+            receiverId?: (number|null);
+
+            /** ChatMessageRequest text */
+            text?: (string|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a ChatMessageRequest. */
+        type $Shape = meridian.ChatMessageRequest.$Properties;
+    }
+
+    /**
+     * Properties of a ChatMessageResponse.
+     * @deprecated Use meridian.ChatMessageResponse.$Properties instead.
+     */
+    interface IChatMessageResponse extends meridian.ChatMessageResponse.$Properties {
+    }
+
+    /** Represents a ChatMessageResponse. */
+    class ChatMessageResponse {
+
+        /**
+         * Constructs a new ChatMessageResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.ChatMessageResponse.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** ChatMessageResponse senderId. */
+        senderId: number;
+
+        /** ChatMessageResponse receiverId. */
+        receiverId: number;
+
+        /** ChatMessageResponse text. */
+        text: string;
+
+        /** ChatMessageResponse time. */
+        time: string;
+
+        /**
+         * Creates a new ChatMessageResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ChatMessageResponse instance
+         */
+        static create(properties: meridian.ChatMessageResponse.$Shape): meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape;
+        static create(properties?: meridian.ChatMessageResponse.$Properties): meridian.ChatMessageResponse;
+
+        /**
+         * Encodes the specified ChatMessageResponse message. Does not implicitly {@link meridian.ChatMessageResponse.verify|verify} messages.
+         * @param message ChatMessageResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.ChatMessageResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ChatMessageResponse message, length delimited. Does not implicitly {@link meridian.ChatMessageResponse.verify|verify} messages.
+         * @param message ChatMessageResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.ChatMessageResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ChatMessageResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape} ChatMessageResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape;
+
+        /**
+         * Decodes a ChatMessageResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape} ChatMessageResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape;
+
+        /**
+         * Verifies a ChatMessageResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ChatMessageResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ChatMessageResponse
+         */
+        static fromObject(object: { [k: string]: any }): meridian.ChatMessageResponse;
+
+        /**
+         * Creates a plain object from a ChatMessageResponse message. Also converts values to other types if specified.
+         * @param message ChatMessageResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.ChatMessageResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ChatMessageResponse to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for ChatMessageResponse
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace ChatMessageResponse {
+
+        /** Properties of a ChatMessageResponse. */
+        interface $Properties {
+
+            /** ChatMessageResponse senderId */
+            senderId?: (number|null);
+
+            /** ChatMessageResponse receiverId */
+            receiverId?: (number|null);
+
+            /** ChatMessageResponse text */
+            text?: (string|null);
+
+            /** ChatMessageResponse time */
+            time?: (string|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a ChatMessageResponse. */
+        type $Shape = meridian.ChatMessageResponse.$Properties;
+    }
+
+    /**
+     * Properties of a ChatWindowResponse.
+     * @deprecated Use meridian.ChatWindowResponse.$Properties instead.
+     */
+    interface IChatWindowResponse extends meridian.ChatWindowResponse.$Properties {
+    }
+
+    /** Represents a ChatWindowResponse. */
+    class ChatWindowResponse {
+
+        /**
+         * Constructs a new ChatWindowResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.ChatWindowResponse.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** ChatWindowResponse success. */
+        success: boolean;
+
+        /**
+         * Creates a new ChatWindowResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ChatWindowResponse instance
+         */
+        static create(properties: meridian.ChatWindowResponse.$Shape): meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape;
+        static create(properties?: meridian.ChatWindowResponse.$Properties): meridian.ChatWindowResponse;
+
+        /**
+         * Encodes the specified ChatWindowResponse message. Does not implicitly {@link meridian.ChatWindowResponse.verify|verify} messages.
+         * @param message ChatWindowResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.ChatWindowResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ChatWindowResponse message, length delimited. Does not implicitly {@link meridian.ChatWindowResponse.verify|verify} messages.
+         * @param message ChatWindowResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.ChatWindowResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ChatWindowResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape} ChatWindowResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape;
+
+        /**
+         * Decodes a ChatWindowResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape} ChatWindowResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape;
+
+        /**
+         * Verifies a ChatWindowResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ChatWindowResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ChatWindowResponse
+         */
+        static fromObject(object: { [k: string]: any }): meridian.ChatWindowResponse;
+
+        /**
+         * Creates a plain object from a ChatWindowResponse message. Also converts values to other types if specified.
+         * @param message ChatWindowResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.ChatWindowResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ChatWindowResponse to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for ChatWindowResponse
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace ChatWindowResponse {
+
+        /** Properties of a ChatWindowResponse. */
+        interface $Properties {
+
+            /** ChatWindowResponse success */
+            success?: (boolean|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a ChatWindowResponse. */
+        type $Shape = meridian.ChatWindowResponse.$Properties;
+    }
+
+    /**
+     * Properties of a ChatHistoryRequest.
+     * @deprecated Use meridian.ChatHistoryRequest.$Properties instead.
+     */
+    interface IChatHistoryRequest extends meridian.ChatHistoryRequest.$Properties {
+    }
+
+    /** Represents a ChatHistoryRequest. */
+    class ChatHistoryRequest {
+
+        /**
+         * Constructs a new ChatHistoryRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.ChatHistoryRequest.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** ChatHistoryRequest senderId. */
+        senderId: number;
+
+        /** ChatHistoryRequest receiverId. */
+        receiverId: number;
+
+        /**
+         * Creates a new ChatHistoryRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ChatHistoryRequest instance
+         */
+        static create(properties: meridian.ChatHistoryRequest.$Shape): meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape;
+        static create(properties?: meridian.ChatHistoryRequest.$Properties): meridian.ChatHistoryRequest;
+
+        /**
+         * Encodes the specified ChatHistoryRequest message. Does not implicitly {@link meridian.ChatHistoryRequest.verify|verify} messages.
+         * @param message ChatHistoryRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.ChatHistoryRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ChatHistoryRequest message, length delimited. Does not implicitly {@link meridian.ChatHistoryRequest.verify|verify} messages.
+         * @param message ChatHistoryRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.ChatHistoryRequest.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ChatHistoryRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape} ChatHistoryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape;
+
+        /**
+         * Decodes a ChatHistoryRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape} ChatHistoryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape;
+
+        /**
+         * Verifies a ChatHistoryRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ChatHistoryRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ChatHistoryRequest
+         */
+        static fromObject(object: { [k: string]: any }): meridian.ChatHistoryRequest;
+
+        /**
+         * Creates a plain object from a ChatHistoryRequest message. Also converts values to other types if specified.
+         * @param message ChatHistoryRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.ChatHistoryRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ChatHistoryRequest to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for ChatHistoryRequest
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace ChatHistoryRequest {
+
+        /** Properties of a ChatHistoryRequest. */
+        interface $Properties {
+
+            /** ChatHistoryRequest senderId */
+            senderId?: (number|null);
+
+            /** ChatHistoryRequest receiverId */
+            receiverId?: (number|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a ChatHistoryRequest. */
+        type $Shape = meridian.ChatHistoryRequest.$Properties;
+    }
+
+    /**
+     * Properties of a ChatHistoryResponse.
+     * @deprecated Use meridian.ChatHistoryResponse.$Properties instead.
+     */
+    interface IChatHistoryResponse extends meridian.ChatHistoryResponse.$Properties {
+    }
+
+    /** Represents a ChatHistoryResponse. */
+    class ChatHistoryResponse {
+
+        /**
+         * Constructs a new ChatHistoryResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: meridian.ChatHistoryResponse.$Properties);
+
+        /** Unknown fields preserved while decoding when enabled */
+        $unknowns?: Uint8Array[];
+
+        /** ChatHistoryResponse messages. */
+        messages: meridian.ChatMessageResponse.$Properties[];
+
+        /**
+         * Creates a new ChatHistoryResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ChatHistoryResponse instance
+         */
+        static create(properties: meridian.ChatHistoryResponse.$Shape): meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape;
+        static create(properties?: meridian.ChatHistoryResponse.$Properties): meridian.ChatHistoryResponse;
+
+        /**
+         * Encodes the specified ChatHistoryResponse message. Does not implicitly {@link meridian.ChatHistoryResponse.verify|verify} messages.
+         * @param message ChatHistoryResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encode(message: meridian.ChatHistoryResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ChatHistoryResponse message, length delimited. Does not implicitly {@link meridian.ChatHistoryResponse.verify|verify} messages.
+         * @param message ChatHistoryResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        static encodeDelimited(message: meridian.ChatHistoryResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ChatHistoryResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns {meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape} ChatHistoryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape;
+
+        /**
+         * Decodes a ChatHistoryResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns {meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape} ChatHistoryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape;
+
+        /**
+         * Verifies a ChatHistoryResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ChatHistoryResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ChatHistoryResponse
+         */
+        static fromObject(object: { [k: string]: any }): meridian.ChatHistoryResponse;
+
+        /**
+         * Creates a plain object from a ChatHistoryResponse message. Also converts values to other types if specified.
+         * @param message ChatHistoryResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        static toObject(message: meridian.ChatHistoryResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ChatHistoryResponse to JSON.
+         * @returns JSON object
+         */
+        toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the type url for ChatHistoryResponse
+         * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns The type url
+         */
+        static getTypeUrl(prefix?: string): string;
+    }
+
+    namespace ChatHistoryResponse {
+
+        /** Properties of a ChatHistoryResponse. */
+        interface $Properties {
+
+            /** ChatHistoryResponse messages */
+            messages?: (meridian.ChatMessageResponse.$Properties[]|null);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+        }
+
+        /** Shape of a ChatHistoryResponse. */
+        type $Shape = meridian.ChatHistoryResponse.$Properties;
     }
 }

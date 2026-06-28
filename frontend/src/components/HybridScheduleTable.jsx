@@ -2,12 +2,16 @@
 import { getUniqueDepartments } from '../services/employeeService';
 
 export default function HybridScheduleTable({ employees }) {
+    // Default fallback filter state targets the Engineering department
     const [selectedDeptName, setSelectedDeptName] = useState('Engineering');
-    const uniqueDepartments = getUniqueDepartments();
+
+    // Extract dynamic department listing using the global employee dataset
+    const uniqueDepartments = getUniqueDepartments(employees);
     const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
     return (
         <div style={styles.scheduleSection}>
+            {/* Filtering interface section */}
             <div style={styles.filterContainer}>
                 <span style={styles.label}>Select Department: </span>
                 <div style={styles.pillContainer}>
@@ -26,6 +30,7 @@ export default function HybridScheduleTable({ employees }) {
                 </div>
             </div>
 
+            {/* Attendance schedule grid */}
             <table style={styles.table}>
                 <thead>
                 <tr style={styles.tableHeaderRow}>
@@ -38,6 +43,7 @@ export default function HybridScheduleTable({ employees }) {
                 </tr>
                 </thead>
                 <tbody>
+                {/* Filter and map employee data columns dynamically */}
                 {employees
                     .filter(emp => (emp.department?.name || '').toLowerCase() === selectedDeptName.toLowerCase())
                     .map(emp => (

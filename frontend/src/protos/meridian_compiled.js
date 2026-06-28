@@ -145,11 +145,11 @@ export const meridian = $root.meridian = (() => {
          * @memberof meridian.EmployeeRpcService
          * @typedef GetEmployees
          * @type {{
-         *   (request: meridian.IEmptyRequest, callback: meridian.EmployeeRpcService.GetEmployeesCallback): void;
-         *   (request: meridian.IEmptyRequest): Promise<meridian.EmployeeListResponse>;
+         *   (request: meridian.IUserHeartbeatRequest, callback: meridian.EmployeeRpcService.GetEmployeesCallback): void;
+         *   (request: meridian.IUserHeartbeatRequest): Promise<meridian.EmployeeListResponse>;
          *   readonly name: "GetEmployees";
          *   readonly path: "/meridian.EmployeeRpcService/GetEmployees";
-         *   readonly requestType: "EmptyRequest";
+         *   readonly requestType: "UserHeartbeatRequest";
          *   readonly responseType: "EmployeeListResponse";
          *   readonly requestStream: undefined;
          *   readonly responseStream: true;
@@ -162,14 +162,137 @@ export const meridian = $root.meridian = (() => {
          * @type {meridian.EmployeeRpcService.GetEmployees}
          */
         $Object.defineProperties(EmployeeRpcService.prototype.getEmployees = function(request, callback) {
-            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.getEmployees, $root.meridian.EmptyRequest, $root.meridian.EmployeeListResponse, request, callback);
+            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.getEmployees, $root.meridian.UserHeartbeatRequest, $root.meridian.EmployeeListResponse, request, callback);
         }, {
             name: { value: "GetEmployees" },
             path: { value: "/meridian.EmployeeRpcService/GetEmployees" },
-            requestType: { value: "EmptyRequest" },
+            requestType: { value: "UserHeartbeatRequest" },
             responseType: { value: "EmployeeListResponse" },
             requestStream: { value: $undefined },
             responseStream: { value: true }
+        });
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#sendMessage}.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef SendMessageCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {meridian.ChatWindowResponse} [response] ChatWindowResponse
+         */
+
+        /**
+         * Calls SendMessage.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef SendMessage
+         * @type {{
+         *   (request: meridian.IChatMessageRequest, callback: meridian.EmployeeRpcService.SendMessageCallback): void;
+         *   (request: meridian.IChatMessageRequest): Promise<meridian.ChatWindowResponse>;
+         *   readonly name: "SendMessage";
+         *   readonly path: "/meridian.EmployeeRpcService/SendMessage";
+         *   readonly requestType: "ChatMessageRequest";
+         *   readonly responseType: "ChatWindowResponse";
+         *   readonly requestStream: undefined;
+         *   readonly responseStream: undefined;
+         * }}
+         */
+
+        /**
+         * Calls SendMessage.
+         * @name meridian.EmployeeRpcService#sendMessage
+         * @type {meridian.EmployeeRpcService.SendMessage}
+         */
+        $Object.defineProperties(EmployeeRpcService.prototype.sendMessage = function(request, callback) {
+            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.sendMessage, $root.meridian.ChatMessageRequest, $root.meridian.ChatWindowResponse, request, callback);
+        }, {
+            name: { value: "SendMessage" },
+            path: { value: "/meridian.EmployeeRpcService/SendMessage" },
+            requestType: { value: "ChatMessageRequest" },
+            responseType: { value: "ChatWindowResponse" },
+            requestStream: { value: $undefined },
+            responseStream: { value: $undefined }
+        });
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#listenMessages}.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef ListenMessagesCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {meridian.ChatMessageResponse} [response] ChatMessageResponse
+         */
+
+        /**
+         * Calls ListenMessages.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef ListenMessages
+         * @type {{
+         *   (request: meridian.IUserHeartbeatRequest, callback: meridian.EmployeeRpcService.ListenMessagesCallback): void;
+         *   (request: meridian.IUserHeartbeatRequest): Promise<meridian.ChatMessageResponse>;
+         *   readonly name: "ListenMessages";
+         *   readonly path: "/meridian.EmployeeRpcService/ListenMessages";
+         *   readonly requestType: "UserHeartbeatRequest";
+         *   readonly responseType: "ChatMessageResponse";
+         *   readonly requestStream: undefined;
+         *   readonly responseStream: true;
+         * }}
+         */
+
+        /**
+         * Calls ListenMessages.
+         * @name meridian.EmployeeRpcService#listenMessages
+         * @type {meridian.EmployeeRpcService.ListenMessages}
+         */
+        $Object.defineProperties(EmployeeRpcService.prototype.listenMessages = function(request, callback) {
+            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.listenMessages, $root.meridian.UserHeartbeatRequest, $root.meridian.ChatMessageResponse, request, callback);
+        }, {
+            name: { value: "ListenMessages" },
+            path: { value: "/meridian.EmployeeRpcService/ListenMessages" },
+            requestType: { value: "UserHeartbeatRequest" },
+            responseType: { value: "ChatMessageResponse" },
+            requestStream: { value: $undefined },
+            responseStream: { value: true }
+        });
+
+        /**
+         * Callback as used by {@link meridian.EmployeeRpcService#getChatHistory}.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef GetChatHistoryCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {meridian.ChatHistoryResponse} [response] ChatHistoryResponse
+         */
+
+        /**
+         * Calls GetChatHistory.
+         * @memberof meridian.EmployeeRpcService
+         * @typedef GetChatHistory
+         * @type {{
+         *   (request: meridian.IChatHistoryRequest, callback: meridian.EmployeeRpcService.GetChatHistoryCallback): void;
+         *   (request: meridian.IChatHistoryRequest): Promise<meridian.ChatHistoryResponse>;
+         *   readonly name: "GetChatHistory";
+         *   readonly path: "/meridian.EmployeeRpcService/GetChatHistory";
+         *   readonly requestType: "ChatHistoryRequest";
+         *   readonly responseType: "ChatHistoryResponse";
+         *   readonly requestStream: undefined;
+         *   readonly responseStream: undefined;
+         * }}
+         */
+
+        /**
+         * Calls GetChatHistory.
+         * @name meridian.EmployeeRpcService#getChatHistory
+         * @type {meridian.EmployeeRpcService.GetChatHistory}
+         */
+        $Object.defineProperties(EmployeeRpcService.prototype.getChatHistory = function(request, callback) {
+            return $protobuf.rpc.Service.prototype.rpcCall.call(this, EmployeeRpcService.prototype.getChatHistory, $root.meridian.ChatHistoryRequest, $root.meridian.ChatHistoryResponse, request, callback);
+        }, {
+            name: { value: "GetChatHistory" },
+            path: { value: "/meridian.EmployeeRpcService/GetChatHistory" },
+            requestType: { value: "ChatHistoryRequest" },
+            responseType: { value: "ChatHistoryResponse" },
+            requestStream: { value: $undefined },
+            responseStream: { value: $undefined }
         });
 
         return EmployeeRpcService;
@@ -392,6 +515,266 @@ export const meridian = $root.meridian = (() => {
         };
 
         return EmptyRequest;
+    })();
+
+    meridian.UserHeartbeatRequest = (function() {
+
+        /**
+         * Properties of a UserHeartbeatRequest.
+         * @typedef {Object} meridian.UserHeartbeatRequest.$Properties
+         * @property {number|null} [employeeId] UserHeartbeatRequest employeeId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a UserHeartbeatRequest.
+         * @memberof meridian
+         * @interface IUserHeartbeatRequest
+         * @augments meridian.UserHeartbeatRequest.$Properties
+         * @deprecated Use meridian.UserHeartbeatRequest.$Properties instead.
+         */
+
+        /**
+         * Shape of a UserHeartbeatRequest.
+         * @typedef {meridian.UserHeartbeatRequest.$Properties} meridian.UserHeartbeatRequest.$Shape
+         */
+
+        /**
+         * Constructs a new UserHeartbeatRequest.
+         * @memberof meridian
+         * @classdesc Represents a UserHeartbeatRequest.
+         * @constructor
+         * @param {meridian.UserHeartbeatRequest.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const UserHeartbeatRequest = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * UserHeartbeatRequest employeeId.
+         * @member {number} employeeId
+         * @memberof meridian.UserHeartbeatRequest
+         * @instance
+         */
+        UserHeartbeatRequest.prototype.employeeId = 0;
+
+        /**
+         * Creates a new UserHeartbeatRequest instance using the specified properties.
+         * @function create
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {meridian.UserHeartbeatRequest.$Properties=} [properties] Properties to set
+         * @returns {meridian.UserHeartbeatRequest} UserHeartbeatRequest instance
+         * @type {{
+         *   (properties: meridian.UserHeartbeatRequest.$Shape): meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape;
+         *   (properties?: meridian.UserHeartbeatRequest.$Properties): meridian.UserHeartbeatRequest;
+         * }}
+         */
+        UserHeartbeatRequest.create = function(properties) {
+            return new UserHeartbeatRequest(properties);
+        };
+
+        /**
+         * Encodes the specified UserHeartbeatRequest message. Does not implicitly {@link meridian.UserHeartbeatRequest.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {meridian.UserHeartbeatRequest.$Properties} message UserHeartbeatRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UserHeartbeatRequest.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId") && message.employeeId !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.employeeId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified UserHeartbeatRequest message, length delimited. Does not implicitly {@link meridian.UserHeartbeatRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {meridian.UserHeartbeatRequest.$Properties} message UserHeartbeatRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UserHeartbeatRequest.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a UserHeartbeatRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape} UserHeartbeatRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UserHeartbeatRequest.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.UserHeartbeatRequest(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.employeeId = value;
+                        else
+                            delete message.employeeId;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a UserHeartbeatRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.UserHeartbeatRequest & meridian.UserHeartbeatRequest.$Shape} UserHeartbeatRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UserHeartbeatRequest.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a UserHeartbeatRequest message.
+         * @function verify
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        UserHeartbeatRequest.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId"))
+                if (!$util.isInteger(message.employeeId))
+                    return "employeeId: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a UserHeartbeatRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.UserHeartbeatRequest} UserHeartbeatRequest
+         */
+        UserHeartbeatRequest.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.UserHeartbeatRequest)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.UserHeartbeatRequest: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.UserHeartbeatRequest();
+            if (object.employeeId != null)
+                if ($Number(object.employeeId) !== 0)
+                    message.employeeId = object.employeeId | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a UserHeartbeatRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {meridian.UserHeartbeatRequest} message UserHeartbeatRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        UserHeartbeatRequest.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults)
+                object.employeeId = 0;
+            if (message.employeeId != null && $Object.hasOwnProperty.call(message, "employeeId"))
+                object.employeeId = message.employeeId;
+            return object;
+        };
+
+        /**
+         * Converts this UserHeartbeatRequest to JSON.
+         * @function toJSON
+         * @memberof meridian.UserHeartbeatRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        UserHeartbeatRequest.prototype.toJSON = function() {
+            return UserHeartbeatRequest.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for UserHeartbeatRequest
+         * @function getTypeUrl
+         * @memberof meridian.UserHeartbeatRequest
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        UserHeartbeatRequest.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.UserHeartbeatRequest";
+        };
+
+        return UserHeartbeatRequest;
     })();
 
     meridian.DepartmentResponse = (function() {
@@ -1073,6 +1456,7 @@ export const meridian = $root.meridian = (() => {
          * @property {string|null} [hireDate] EmployeeResponse hireDate
          * @property {meridian.DepartmentResponse.$Properties|null} [department] EmployeeResponse department
          * @property {meridian.HybridScheduleResponse.$Properties|null} [hybridSchedule] EmployeeResponse hybridSchedule
+         * @property {boolean|null} [isOnline] EmployeeResponse isOnline
          * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
 
@@ -1161,6 +1545,14 @@ export const meridian = $root.meridian = (() => {
         EmployeeResponse.prototype.hybridSchedule = null;
 
         /**
+         * EmployeeResponse isOnline.
+         * @member {boolean} isOnline
+         * @memberof meridian.EmployeeResponse
+         * @instance
+         */
+        EmployeeResponse.prototype.isOnline = false;
+
+        /**
          * Creates a new EmployeeResponse instance using the specified properties.
          * @function create
          * @memberof meridian.EmployeeResponse
@@ -1206,6 +1598,8 @@ export const meridian = $root.meridian = (() => {
                 $root.meridian.DepartmentResponse.encode(message.department, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
             if (message.hybridSchedule != null && $Object.hasOwnProperty.call(message, "hybridSchedule"))
                 $root.meridian.HybridScheduleResponse.encode(message.hybridSchedule, writer.uint32(/* id 7, wireType 2 =*/58).fork(), _depth + 1).ldelim();
+            if (message.isOnline != null && $Object.hasOwnProperty.call(message, "isOnline") && message.isOnline !== false)
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.isOnline);
             if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                 for (let i = 0; i < message.$unknowns.length; ++i)
                     writer.raw(message.$unknowns[i]);
@@ -1310,6 +1704,15 @@ export const meridian = $root.meridian = (() => {
                         message.hybridSchedule = $root.meridian.HybridScheduleResponse.decode(reader, reader.uint32(), $undefined, _depth + 1, message.hybridSchedule);
                         continue;
                     }
+                case 8: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.bool())
+                            message.isOnline = value;
+                        else
+                            delete message.isOnline;
+                        continue;
+                    }
                 }
                 reader.skipType(wireType, _depth, tag);
                 if (!reader.discardUnknown) {
@@ -1378,6 +1781,9 @@ export const meridian = $root.meridian = (() => {
                 if (error)
                     return "hybridSchedule." + error;
             }
+            if (message.isOnline != null && $Object.hasOwnProperty.call(message, "isOnline"))
+                if (typeof message.isOnline !== "boolean")
+                    return "isOnline: boolean expected";
             return null;
         };
 
@@ -1424,6 +1830,9 @@ export const meridian = $root.meridian = (() => {
                     throw $TypeError(".meridian.EmployeeResponse.hybridSchedule: object expected");
                 message.hybridSchedule = $root.meridian.HybridScheduleResponse.fromObject(object.hybridSchedule, _depth + 1);
             }
+            if (object.isOnline != null)
+                if (object.isOnline)
+                    message.isOnline = $Boolean(object.isOnline);
             return message;
         };
 
@@ -1452,6 +1861,7 @@ export const meridian = $root.meridian = (() => {
                 object.hireDate = "";
                 object.department = null;
                 object.hybridSchedule = null;
+                object.isOnline = false;
             }
             if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                 object.id = message.id;
@@ -1467,6 +1877,8 @@ export const meridian = $root.meridian = (() => {
                 object.department = $root.meridian.DepartmentResponse.toObject(message.department, options, _depth + 1);
             if (message.hybridSchedule != null && $Object.hasOwnProperty.call(message, "hybridSchedule"))
                 object.hybridSchedule = $root.meridian.HybridScheduleResponse.toObject(message.hybridSchedule, options, _depth + 1);
+            if (message.isOnline != null && $Object.hasOwnProperty.call(message, "isOnline"))
+                object.isOnline = message.isOnline;
             return object;
         };
 
@@ -2818,6 +3230,1500 @@ export const meridian = $root.meridian = (() => {
         };
 
         return UpdateScheduleRequest;
+    })();
+
+    meridian.ChatMessageRequest = (function() {
+
+        /**
+         * Properties of a ChatMessageRequest.
+         * @typedef {Object} meridian.ChatMessageRequest.$Properties
+         * @property {number|null} [senderId] ChatMessageRequest senderId
+         * @property {number|null} [receiverId] ChatMessageRequest receiverId
+         * @property {string|null} [text] ChatMessageRequest text
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a ChatMessageRequest.
+         * @memberof meridian
+         * @interface IChatMessageRequest
+         * @augments meridian.ChatMessageRequest.$Properties
+         * @deprecated Use meridian.ChatMessageRequest.$Properties instead.
+         */
+
+        /**
+         * Shape of a ChatMessageRequest.
+         * @typedef {meridian.ChatMessageRequest.$Properties} meridian.ChatMessageRequest.$Shape
+         */
+
+        /**
+         * Constructs a new ChatMessageRequest.
+         * @memberof meridian
+         * @classdesc Represents a ChatMessageRequest.
+         * @constructor
+         * @param {meridian.ChatMessageRequest.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const ChatMessageRequest = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * ChatMessageRequest senderId.
+         * @member {number} senderId
+         * @memberof meridian.ChatMessageRequest
+         * @instance
+         */
+        ChatMessageRequest.prototype.senderId = 0;
+
+        /**
+         * ChatMessageRequest receiverId.
+         * @member {number} receiverId
+         * @memberof meridian.ChatMessageRequest
+         * @instance
+         */
+        ChatMessageRequest.prototype.receiverId = 0;
+
+        /**
+         * ChatMessageRequest text.
+         * @member {string} text
+         * @memberof meridian.ChatMessageRequest
+         * @instance
+         */
+        ChatMessageRequest.prototype.text = "";
+
+        /**
+         * Creates a new ChatMessageRequest instance using the specified properties.
+         * @function create
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {meridian.ChatMessageRequest.$Properties=} [properties] Properties to set
+         * @returns {meridian.ChatMessageRequest} ChatMessageRequest instance
+         * @type {{
+         *   (properties: meridian.ChatMessageRequest.$Shape): meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape;
+         *   (properties?: meridian.ChatMessageRequest.$Properties): meridian.ChatMessageRequest;
+         * }}
+         */
+        ChatMessageRequest.create = function(properties) {
+            return new ChatMessageRequest(properties);
+        };
+
+        /**
+         * Encodes the specified ChatMessageRequest message. Does not implicitly {@link meridian.ChatMessageRequest.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {meridian.ChatMessageRequest.$Properties} message ChatMessageRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatMessageRequest.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId") && message.senderId !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.senderId);
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId") && message.receiverId !== 0)
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.receiverId);
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text") && message.text !== "")
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ChatMessageRequest message, length delimited. Does not implicitly {@link meridian.ChatMessageRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {meridian.ChatMessageRequest.$Properties} message ChatMessageRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatMessageRequest.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a ChatMessageRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape} ChatMessageRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatMessageRequest.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.ChatMessageRequest(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.senderId = value;
+                        else
+                            delete message.senderId;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.receiverId = value;
+                        else
+                            delete message.receiverId;
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.text = value;
+                        else
+                            delete message.text;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a ChatMessageRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.ChatMessageRequest & meridian.ChatMessageRequest.$Shape} ChatMessageRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatMessageRequest.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ChatMessageRequest message.
+         * @function verify
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ChatMessageRequest.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                if (!$util.isInteger(message.senderId))
+                    return "senderId: integer expected";
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                if (!$util.isInteger(message.receiverId))
+                    return "receiverId: integer expected";
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                if (!$util.isString(message.text))
+                    return "text: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a ChatMessageRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.ChatMessageRequest} ChatMessageRequest
+         */
+        ChatMessageRequest.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.ChatMessageRequest)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.ChatMessageRequest: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.ChatMessageRequest();
+            if (object.senderId != null)
+                if ($Number(object.senderId) !== 0)
+                    message.senderId = object.senderId | 0;
+            if (object.receiverId != null)
+                if ($Number(object.receiverId) !== 0)
+                    message.receiverId = object.receiverId | 0;
+            if (object.text != null)
+                if (typeof object.text !== "string" || object.text.length)
+                    message.text = $String(object.text);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ChatMessageRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {meridian.ChatMessageRequest} message ChatMessageRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ChatMessageRequest.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults) {
+                object.senderId = 0;
+                object.receiverId = 0;
+                object.text = "";
+            }
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                object.senderId = message.senderId;
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                object.receiverId = message.receiverId;
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                object.text = message.text;
+            return object;
+        };
+
+        /**
+         * Converts this ChatMessageRequest to JSON.
+         * @function toJSON
+         * @memberof meridian.ChatMessageRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ChatMessageRequest.prototype.toJSON = function() {
+            return ChatMessageRequest.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for ChatMessageRequest
+         * @function getTypeUrl
+         * @memberof meridian.ChatMessageRequest
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        ChatMessageRequest.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.ChatMessageRequest";
+        };
+
+        return ChatMessageRequest;
+    })();
+
+    meridian.ChatMessageResponse = (function() {
+
+        /**
+         * Properties of a ChatMessageResponse.
+         * @typedef {Object} meridian.ChatMessageResponse.$Properties
+         * @property {number|null} [senderId] ChatMessageResponse senderId
+         * @property {number|null} [receiverId] ChatMessageResponse receiverId
+         * @property {string|null} [text] ChatMessageResponse text
+         * @property {string|null} [time] ChatMessageResponse time
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a ChatMessageResponse.
+         * @memberof meridian
+         * @interface IChatMessageResponse
+         * @augments meridian.ChatMessageResponse.$Properties
+         * @deprecated Use meridian.ChatMessageResponse.$Properties instead.
+         */
+
+        /**
+         * Shape of a ChatMessageResponse.
+         * @typedef {meridian.ChatMessageResponse.$Properties} meridian.ChatMessageResponse.$Shape
+         */
+
+        /**
+         * Constructs a new ChatMessageResponse.
+         * @memberof meridian
+         * @classdesc Represents a ChatMessageResponse.
+         * @constructor
+         * @param {meridian.ChatMessageResponse.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const ChatMessageResponse = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * ChatMessageResponse senderId.
+         * @member {number} senderId
+         * @memberof meridian.ChatMessageResponse
+         * @instance
+         */
+        ChatMessageResponse.prototype.senderId = 0;
+
+        /**
+         * ChatMessageResponse receiverId.
+         * @member {number} receiverId
+         * @memberof meridian.ChatMessageResponse
+         * @instance
+         */
+        ChatMessageResponse.prototype.receiverId = 0;
+
+        /**
+         * ChatMessageResponse text.
+         * @member {string} text
+         * @memberof meridian.ChatMessageResponse
+         * @instance
+         */
+        ChatMessageResponse.prototype.text = "";
+
+        /**
+         * ChatMessageResponse time.
+         * @member {string} time
+         * @memberof meridian.ChatMessageResponse
+         * @instance
+         */
+        ChatMessageResponse.prototype.time = "";
+
+        /**
+         * Creates a new ChatMessageResponse instance using the specified properties.
+         * @function create
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {meridian.ChatMessageResponse.$Properties=} [properties] Properties to set
+         * @returns {meridian.ChatMessageResponse} ChatMessageResponse instance
+         * @type {{
+         *   (properties: meridian.ChatMessageResponse.$Shape): meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape;
+         *   (properties?: meridian.ChatMessageResponse.$Properties): meridian.ChatMessageResponse;
+         * }}
+         */
+        ChatMessageResponse.create = function(properties) {
+            return new ChatMessageResponse(properties);
+        };
+
+        /**
+         * Encodes the specified ChatMessageResponse message. Does not implicitly {@link meridian.ChatMessageResponse.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {meridian.ChatMessageResponse.$Properties} message ChatMessageResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatMessageResponse.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId") && message.senderId !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.senderId);
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId") && message.receiverId !== 0)
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.receiverId);
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text") && message.text !== "")
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+            if (message.time != null && $Object.hasOwnProperty.call(message, "time") && message.time !== "")
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.time);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ChatMessageResponse message, length delimited. Does not implicitly {@link meridian.ChatMessageResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {meridian.ChatMessageResponse.$Properties} message ChatMessageResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatMessageResponse.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a ChatMessageResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape} ChatMessageResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatMessageResponse.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.ChatMessageResponse(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.senderId = value;
+                        else
+                            delete message.senderId;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.receiverId = value;
+                        else
+                            delete message.receiverId;
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.text = value;
+                        else
+                            delete message.text;
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        if ((value = reader.stringVerify()).length)
+                            message.time = value;
+                        else
+                            delete message.time;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a ChatMessageResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.ChatMessageResponse & meridian.ChatMessageResponse.$Shape} ChatMessageResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatMessageResponse.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ChatMessageResponse message.
+         * @function verify
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ChatMessageResponse.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                if (!$util.isInteger(message.senderId))
+                    return "senderId: integer expected";
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                if (!$util.isInteger(message.receiverId))
+                    return "receiverId: integer expected";
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                if (!$util.isString(message.text))
+                    return "text: string expected";
+            if (message.time != null && $Object.hasOwnProperty.call(message, "time"))
+                if (!$util.isString(message.time))
+                    return "time: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a ChatMessageResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.ChatMessageResponse} ChatMessageResponse
+         */
+        ChatMessageResponse.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.ChatMessageResponse)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.ChatMessageResponse: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.ChatMessageResponse();
+            if (object.senderId != null)
+                if ($Number(object.senderId) !== 0)
+                    message.senderId = object.senderId | 0;
+            if (object.receiverId != null)
+                if ($Number(object.receiverId) !== 0)
+                    message.receiverId = object.receiverId | 0;
+            if (object.text != null)
+                if (typeof object.text !== "string" || object.text.length)
+                    message.text = $String(object.text);
+            if (object.time != null)
+                if (typeof object.time !== "string" || object.time.length)
+                    message.time = $String(object.time);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ChatMessageResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {meridian.ChatMessageResponse} message ChatMessageResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ChatMessageResponse.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults) {
+                object.senderId = 0;
+                object.receiverId = 0;
+                object.text = "";
+                object.time = "";
+            }
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                object.senderId = message.senderId;
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                object.receiverId = message.receiverId;
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                object.text = message.text;
+            if (message.time != null && $Object.hasOwnProperty.call(message, "time"))
+                object.time = message.time;
+            return object;
+        };
+
+        /**
+         * Converts this ChatMessageResponse to JSON.
+         * @function toJSON
+         * @memberof meridian.ChatMessageResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ChatMessageResponse.prototype.toJSON = function() {
+            return ChatMessageResponse.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for ChatMessageResponse
+         * @function getTypeUrl
+         * @memberof meridian.ChatMessageResponse
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        ChatMessageResponse.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.ChatMessageResponse";
+        };
+
+        return ChatMessageResponse;
+    })();
+
+    meridian.ChatWindowResponse = (function() {
+
+        /**
+         * Properties of a ChatWindowResponse.
+         * @typedef {Object} meridian.ChatWindowResponse.$Properties
+         * @property {boolean|null} [success] ChatWindowResponse success
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a ChatWindowResponse.
+         * @memberof meridian
+         * @interface IChatWindowResponse
+         * @augments meridian.ChatWindowResponse.$Properties
+         * @deprecated Use meridian.ChatWindowResponse.$Properties instead.
+         */
+
+        /**
+         * Shape of a ChatWindowResponse.
+         * @typedef {meridian.ChatWindowResponse.$Properties} meridian.ChatWindowResponse.$Shape
+         */
+
+        /**
+         * Constructs a new ChatWindowResponse.
+         * @memberof meridian
+         * @classdesc Represents a ChatWindowResponse.
+         * @constructor
+         * @param {meridian.ChatWindowResponse.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const ChatWindowResponse = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * ChatWindowResponse success.
+         * @member {boolean} success
+         * @memberof meridian.ChatWindowResponse
+         * @instance
+         */
+        ChatWindowResponse.prototype.success = false;
+
+        /**
+         * Creates a new ChatWindowResponse instance using the specified properties.
+         * @function create
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {meridian.ChatWindowResponse.$Properties=} [properties] Properties to set
+         * @returns {meridian.ChatWindowResponse} ChatWindowResponse instance
+         * @type {{
+         *   (properties: meridian.ChatWindowResponse.$Shape): meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape;
+         *   (properties?: meridian.ChatWindowResponse.$Properties): meridian.ChatWindowResponse;
+         * }}
+         */
+        ChatWindowResponse.create = function(properties) {
+            return new ChatWindowResponse(properties);
+        };
+
+        /**
+         * Encodes the specified ChatWindowResponse message. Does not implicitly {@link meridian.ChatWindowResponse.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {meridian.ChatWindowResponse.$Properties} message ChatWindowResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatWindowResponse.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success") && message.success !== false)
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.success);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ChatWindowResponse message, length delimited. Does not implicitly {@link meridian.ChatWindowResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {meridian.ChatWindowResponse.$Properties} message ChatWindowResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatWindowResponse.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a ChatWindowResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape} ChatWindowResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatWindowResponse.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.ChatWindowResponse(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.bool())
+                            message.success = value;
+                        else
+                            delete message.success;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a ChatWindowResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.ChatWindowResponse & meridian.ChatWindowResponse.$Shape} ChatWindowResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatWindowResponse.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ChatWindowResponse message.
+         * @function verify
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ChatWindowResponse.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success"))
+                if (typeof message.success !== "boolean")
+                    return "success: boolean expected";
+            return null;
+        };
+
+        /**
+         * Creates a ChatWindowResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.ChatWindowResponse} ChatWindowResponse
+         */
+        ChatWindowResponse.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.ChatWindowResponse)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.ChatWindowResponse: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.ChatWindowResponse();
+            if (object.success != null)
+                if (object.success)
+                    message.success = $Boolean(object.success);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ChatWindowResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {meridian.ChatWindowResponse} message ChatWindowResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ChatWindowResponse.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults)
+                object.success = false;
+            if (message.success != null && $Object.hasOwnProperty.call(message, "success"))
+                object.success = message.success;
+            return object;
+        };
+
+        /**
+         * Converts this ChatWindowResponse to JSON.
+         * @function toJSON
+         * @memberof meridian.ChatWindowResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ChatWindowResponse.prototype.toJSON = function() {
+            return ChatWindowResponse.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for ChatWindowResponse
+         * @function getTypeUrl
+         * @memberof meridian.ChatWindowResponse
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        ChatWindowResponse.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.ChatWindowResponse";
+        };
+
+        return ChatWindowResponse;
+    })();
+
+    meridian.ChatHistoryRequest = (function() {
+
+        /**
+         * Properties of a ChatHistoryRequest.
+         * @typedef {Object} meridian.ChatHistoryRequest.$Properties
+         * @property {number|null} [senderId] ChatHistoryRequest senderId
+         * @property {number|null} [receiverId] ChatHistoryRequest receiverId
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a ChatHistoryRequest.
+         * @memberof meridian
+         * @interface IChatHistoryRequest
+         * @augments meridian.ChatHistoryRequest.$Properties
+         * @deprecated Use meridian.ChatHistoryRequest.$Properties instead.
+         */
+
+        /**
+         * Shape of a ChatHistoryRequest.
+         * @typedef {meridian.ChatHistoryRequest.$Properties} meridian.ChatHistoryRequest.$Shape
+         */
+
+        /**
+         * Constructs a new ChatHistoryRequest.
+         * @memberof meridian
+         * @classdesc Represents a ChatHistoryRequest.
+         * @constructor
+         * @param {meridian.ChatHistoryRequest.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const ChatHistoryRequest = function (properties) {
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * ChatHistoryRequest senderId.
+         * @member {number} senderId
+         * @memberof meridian.ChatHistoryRequest
+         * @instance
+         */
+        ChatHistoryRequest.prototype.senderId = 0;
+
+        /**
+         * ChatHistoryRequest receiverId.
+         * @member {number} receiverId
+         * @memberof meridian.ChatHistoryRequest
+         * @instance
+         */
+        ChatHistoryRequest.prototype.receiverId = 0;
+
+        /**
+         * Creates a new ChatHistoryRequest instance using the specified properties.
+         * @function create
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {meridian.ChatHistoryRequest.$Properties=} [properties] Properties to set
+         * @returns {meridian.ChatHistoryRequest} ChatHistoryRequest instance
+         * @type {{
+         *   (properties: meridian.ChatHistoryRequest.$Shape): meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape;
+         *   (properties?: meridian.ChatHistoryRequest.$Properties): meridian.ChatHistoryRequest;
+         * }}
+         */
+        ChatHistoryRequest.create = function(properties) {
+            return new ChatHistoryRequest(properties);
+        };
+
+        /**
+         * Encodes the specified ChatHistoryRequest message. Does not implicitly {@link meridian.ChatHistoryRequest.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {meridian.ChatHistoryRequest.$Properties} message ChatHistoryRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatHistoryRequest.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId") && message.senderId !== 0)
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.senderId);
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId") && message.receiverId !== 0)
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.receiverId);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ChatHistoryRequest message, length delimited. Does not implicitly {@link meridian.ChatHistoryRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {meridian.ChatHistoryRequest.$Properties} message ChatHistoryRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatHistoryRequest.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a ChatHistoryRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape} ChatHistoryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatHistoryRequest.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.ChatHistoryRequest(), value;
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.senderId = value;
+                        else
+                            delete message.senderId;
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        if (value = reader.int32())
+                            message.receiverId = value;
+                        else
+                            delete message.receiverId;
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a ChatHistoryRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.ChatHistoryRequest & meridian.ChatHistoryRequest.$Shape} ChatHistoryRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatHistoryRequest.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ChatHistoryRequest message.
+         * @function verify
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ChatHistoryRequest.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                if (!$util.isInteger(message.senderId))
+                    return "senderId: integer expected";
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                if (!$util.isInteger(message.receiverId))
+                    return "receiverId: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a ChatHistoryRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.ChatHistoryRequest} ChatHistoryRequest
+         */
+        ChatHistoryRequest.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.ChatHistoryRequest)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.ChatHistoryRequest: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.ChatHistoryRequest();
+            if (object.senderId != null)
+                if ($Number(object.senderId) !== 0)
+                    message.senderId = object.senderId | 0;
+            if (object.receiverId != null)
+                if ($Number(object.receiverId) !== 0)
+                    message.receiverId = object.receiverId | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ChatHistoryRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {meridian.ChatHistoryRequest} message ChatHistoryRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ChatHistoryRequest.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.defaults) {
+                object.senderId = 0;
+                object.receiverId = 0;
+            }
+            if (message.senderId != null && $Object.hasOwnProperty.call(message, "senderId"))
+                object.senderId = message.senderId;
+            if (message.receiverId != null && $Object.hasOwnProperty.call(message, "receiverId"))
+                object.receiverId = message.receiverId;
+            return object;
+        };
+
+        /**
+         * Converts this ChatHistoryRequest to JSON.
+         * @function toJSON
+         * @memberof meridian.ChatHistoryRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ChatHistoryRequest.prototype.toJSON = function() {
+            return ChatHistoryRequest.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for ChatHistoryRequest
+         * @function getTypeUrl
+         * @memberof meridian.ChatHistoryRequest
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        ChatHistoryRequest.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.ChatHistoryRequest";
+        };
+
+        return ChatHistoryRequest;
+    })();
+
+    meridian.ChatHistoryResponse = (function() {
+
+        /**
+         * Properties of a ChatHistoryResponse.
+         * @typedef {Object} meridian.ChatHistoryResponse.$Properties
+         * @property {Array.<meridian.ChatMessageResponse.$Properties>|null} [messages] ChatHistoryResponse messages
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+
+        /**
+         * Properties of a ChatHistoryResponse.
+         * @memberof meridian
+         * @interface IChatHistoryResponse
+         * @augments meridian.ChatHistoryResponse.$Properties
+         * @deprecated Use meridian.ChatHistoryResponse.$Properties instead.
+         */
+
+        /**
+         * Shape of a ChatHistoryResponse.
+         * @typedef {meridian.ChatHistoryResponse.$Properties} meridian.ChatHistoryResponse.$Shape
+         */
+
+        /**
+         * Constructs a new ChatHistoryResponse.
+         * @memberof meridian
+         * @classdesc Represents a ChatHistoryResponse.
+         * @constructor
+         * @param {meridian.ChatHistoryResponse.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+        const ChatHistoryResponse = function (properties) {
+            this.messages = [];
+            if (properties)
+                for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        };
+
+        /**
+         * ChatHistoryResponse messages.
+         * @member {Array.<meridian.ChatMessageResponse.$Properties>} messages
+         * @memberof meridian.ChatHistoryResponse
+         * @instance
+         */
+        ChatHistoryResponse.prototype.messages = $util.emptyArray;
+
+        /**
+         * Creates a new ChatHistoryResponse instance using the specified properties.
+         * @function create
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {meridian.ChatHistoryResponse.$Properties=} [properties] Properties to set
+         * @returns {meridian.ChatHistoryResponse} ChatHistoryResponse instance
+         * @type {{
+         *   (properties: meridian.ChatHistoryResponse.$Shape): meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape;
+         *   (properties?: meridian.ChatHistoryResponse.$Properties): meridian.ChatHistoryResponse;
+         * }}
+         */
+        ChatHistoryResponse.create = function(properties) {
+            return new ChatHistoryResponse(properties);
+        };
+
+        /**
+         * Encodes the specified ChatHistoryResponse message. Does not implicitly {@link meridian.ChatHistoryResponse.verify|verify} messages.
+         * @function encode
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {meridian.ChatHistoryResponse.$Properties} message ChatHistoryResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatHistoryResponse.encode = function (message, writer, _depth) {
+            if (!writer)
+                writer = $Writer.create();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.messages != null && message.messages.length)
+                for (let i = 0; i < message.messages.length; ++i)
+                    $root.meridian.ChatMessageResponse.encode(message.messages[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (let i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ChatHistoryResponse message, length delimited. Does not implicitly {@link meridian.ChatHistoryResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {meridian.ChatHistoryResponse.$Properties} message ChatHistoryResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ChatHistoryResponse.encodeDelimited = function(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+
+        /**
+         * Decodes a ChatHistoryResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape} ChatHistoryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatHistoryResponse.decode = function (reader, length, _end, _depth, _target) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.meridian.ChatHistoryResponse();
+            while (reader.pos < end) {
+                let start = reader.pos;
+                let tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
+                    break;
+                }
+                let wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.messages && message.messages.length))
+                            message.messages = [];
+                        message.messages.push($root.meridian.ChatMessageResponse.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+            }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
+            return message;
+        };
+
+        /**
+         * Decodes a ChatHistoryResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {meridian.ChatHistoryResponse & meridian.ChatHistoryResponse.$Shape} ChatHistoryResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ChatHistoryResponse.decodeDelimited = function(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ChatHistoryResponse message.
+         * @function verify
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ChatHistoryResponse.verify = function (message, _depth) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.messages != null && $Object.hasOwnProperty.call(message, "messages")) {
+                if (!$Array.isArray(message.messages))
+                    return "messages: array expected";
+                for (let i = 0; i < message.messages.length; ++i) {
+                    let error = $root.meridian.ChatMessageResponse.verify(message.messages[i], _depth + 1);
+                    if (error)
+                        return "messages." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a ChatHistoryResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {meridian.ChatHistoryResponse} ChatHistoryResponse
+         */
+        ChatHistoryResponse.fromObject = function (object, _depth) {
+            if (object instanceof $root.meridian.ChatHistoryResponse)
+                return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".meridian.ChatHistoryResponse: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let message = new $root.meridian.ChatHistoryResponse();
+            if (object.messages) {
+                if (!$Array.isArray(object.messages))
+                    throw $TypeError(".meridian.ChatHistoryResponse.messages: array expected");
+                message.messages = $Array(object.messages.length);
+                for (let i = 0; i < object.messages.length; ++i) {
+                    if (!$util.isObject(object.messages[i]))
+                        throw $TypeError(".meridian.ChatHistoryResponse.messages: object expected");
+                    message.messages[i] = $root.meridian.ChatMessageResponse.fromObject(object.messages[i], _depth + 1);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ChatHistoryResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {meridian.ChatHistoryResponse} message ChatHistoryResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ChatHistoryResponse.toObject = function (message, options, _depth) {
+            if (!options)
+                options = {};
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.messages = [];
+            if (message.messages && message.messages.length) {
+                object.messages = $Array(message.messages.length);
+                for (let j = 0; j < message.messages.length; ++j)
+                    object.messages[j] = $root.meridian.ChatMessageResponse.toObject(message.messages[j], options, _depth + 1);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this ChatHistoryResponse to JSON.
+         * @function toJSON
+         * @memberof meridian.ChatHistoryResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ChatHistoryResponse.prototype.toJSON = function() {
+            return ChatHistoryResponse.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the type url for ChatHistoryResponse
+         * @function getTypeUrl
+         * @memberof meridian.ChatHistoryResponse
+         * @static
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
+         */
+        ChatHistoryResponse.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/meridian.ChatHistoryResponse";
+        };
+
+        return ChatHistoryResponse;
     })();
 
     return meridian;

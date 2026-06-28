@@ -8,6 +8,7 @@ public static class DbSeeder
 {
     public static void SeedData(AppDbContext context)
     {
+        // Skip seeding if database is already populated
         if (context.Employees.Any())
         {
             return;
@@ -17,13 +18,14 @@ public static class DbSeeder
         var lastNames = new[] { "Smith", "Doe", "Johnson", "Brown", "Taylor", "Miller", "Popescu", "Ionescu", "Nistor", "Lupu", "Muresan", "Stoica" };
         var random = new Random();
 
+        // Exact distribution mapping requested to target 201 total entries
         var departmentCounts = new Dictionary<int, int>
         {
-            { 1, 50 }, // Engineering (Includes 2 hardcoded accounts + 48 random)
-            { 2, 50 }, 
-            { 3, 50 }, 
-            { 4, 1 },  
-            { 5, 49 }  
+            { 1, 50 }, // Engineering
+            { 2, 50 }, // Sales
+            { 3, 50 }, // Marketing
+            { 4, 1 },  // HR
+            { 5, 50 }  // Finance
         };
 
         var defaultPasswordHash = HashPassword("Password123!");
@@ -37,7 +39,7 @@ public static class DbSeeder
             {
                 Employee employee;
 
-                // Hardcode specific test accounts at the beginning of Engineering (Id = 1)
+                // Hardcode specific test accounts for Engineering
                 if (deptId == 1 && i == 0)
                 {
                     employee = new Employee
@@ -66,7 +68,7 @@ public static class DbSeeder
                 }
                 else
                 {
-                    // Generate remaining employees randomly to build data volume
+                    // Generate pseudo-random corporate user records
                     var firstName = firstNames[random.Next(firstNames.Length)];
                     var lastName = lastNames[random.Next(lastNames.Length)];
                     var hireDate = DateTime.Today.AddDays(-random.Next(1, 365));
@@ -85,25 +87,38 @@ public static class DbSeeder
                 }
 
                 context.Employees.Add(employee);
+                
+                // Persist immediately to safely generate the entity Id required for the tracking link
                 context.SaveChanges(); 
 
+                // Rule context constraint: enforce exactly 3 office days (true) and 2 remote days (false)
                 var daysPool = new List<bool> { true, true, true, false, false };
-                var shuffledDays = daysPool.OrderBy(_ => random.Next()).ToList();
+                
+                // Fisher-Yates shuffle algorithm to guarantee schedule entropy per record
+                int n = daysPool.Count;
+                while (n > 1) {
+                    n--;
+                    int k = random.Next(n + 1);
+                    var value = daysPool[k];
+                    daysPool[k] = daysPool[n];
+                    daysPool[n] = value;
+                }
 
                 var schedule = new HybridSchedule
                 {
                     EmployeeId = employee.Id,
-                    Monday = shuffledDays[0],
-                    Tuesday = shuffledDays[1],
-                    Wednesday = shuffledDays[2],
-                    Thursday = shuffledDays[3],
-                    Friday = shuffledDays[4]
+                    Monday = daysPool[0],
+                    Tuesday = daysPool[1],
+                    Wednesday = daysPool[2],
+                    Thursday = daysPool[3],
+                    Friday = daysPool[4]
                 };
 
                 context.HybridSchedules.Add(schedule);
             }
         }
 
+        // Final save context sweep for dependent tracking collection blocks
         context.SaveChanges();
     }
 

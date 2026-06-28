@@ -17,6 +17,32 @@ namespace backend.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
 
+            // Define ChatMessage entity metadata and constraints
+            modelBuilder.Entity("backend.Models.ChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatMessages");
+                });
+
+            // Define Department lookup entity metadata and data seed blocks
             modelBuilder.Entity("backend.Models.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -32,33 +58,14 @@ namespace backend.Migrations
                     b.ToTable("Departments");
 
                     b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Engineering"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Sales"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Marketing"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Finance"
-                        });
+                        new { Id = 1, Name = "Engineering" },
+                        new { Id = 2, Name = "Sales" },
+                        new { Id = 3, Name = "Marketing" },
+                        new { Id = 4, Name = "HR" },
+                        new { Id = 5, Name = "Finance" });
                 });
 
+            // Define Employee main profile metadata and configuration links
             modelBuilder.Entity("backend.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -79,7 +86,15 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SlackHandle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -87,9 +102,13 @@ namespace backend.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Employees");
                 });
 
+            // Define HybridSchedule tracking metadata configuration variables
             modelBuilder.Entity("backend.Models.HybridSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -116,11 +135,13 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeId")
+                        .IsUnique();
 
                     b.ToTable("HybridSchedules");
                 });
 
+            // Configure foreign key mapping relationship links between collections
             modelBuilder.Entity("backend.Models.Employee", b =>
                 {
                     b.HasOne("backend.Models.Department", "Department")
@@ -135,12 +156,17 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.HybridSchedule", b =>
                 {
                     b.HasOne("backend.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
+                        .WithOne("HybridSchedule")
+                        .HasForeignKey("backend.Models.HybridSchedule", "EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("backend.Models.Employee", b =>
+                {
+                    b.Navigation("HybridSchedule");
                 });
 #pragma warning restore 612, 618
         }
