@@ -4,6 +4,12 @@ import { meridian } from "../protos/meridian_compiled";
 const SERVER_URL = "http://localhost:5266";
 const client = new grpcWeb.GrpcWebClientBase({});
 
+// Helper to inject the authorization token metadata dynamically into gRPC pipes
+const getAuthMetadata = () => {
+    const token = localStorage.getItem("meridian_token");
+    return token ? { "authorization": `Bearer ${token}` } : {};
+};
+
 // Open a persistent message subscription channel matching user heartbeats
 export const subscribeToMessages = (employeeId, onMessageReceived) => {
     const methodDescriptor = new grpcWeb.MethodDescriptor(
@@ -18,10 +24,11 @@ export const subscribeToMessages = (employeeId, onMessageReceived) => {
         (bytes) => meridian.ChatMessageResponse.decode(bytes)
     );
 
+    // COURSE TOPIC: Intercepting Streaming Pipes with Authorization Metadata Headers
     const stream = client.serverStreaming(
         SERVER_URL + "/meridian.EmployeeRpcService/ListenMessages",
         { employeeId: Number(employeeId) },
-        {},
+        getAuthMetadata(), // Inject JWT verification bearer token
         methodDescriptor
     );
 
@@ -58,10 +65,11 @@ export const sendChatMessage = (senderId, receiverId, text) => {
             (bytes) => meridian.ChatWindowResponse.decode(bytes)
         );
 
+        // COURSE TOPIC: Securing Unary API Requests with Stateless Authorizations
         client.rpcCall(
             SERVER_URL + "/meridian.EmployeeRpcService/SendMessage",
             { senderId: Number(senderId), receiverId: Number(receiverId), text },
-            {},
+            getAuthMetadata(), // Inject JWT verification bearer token
             methodDescriptor,
             (err, response) => {
                 if (err) reject(err);
@@ -92,7 +100,7 @@ export const getChatHistory = (senderId, receiverId) => {
         client.rpcCall(
             SERVER_URL + "/meridian.EmployeeRpcService/GetChatHistory",
             { senderId: Number(senderId), receiverId: Number(receiverId) },
-            {},
+            getAuthMetadata(), // Inject JWT verification bearer token
             methodDescriptor,
             (err, response) => {
                 if (err) reject(err);

@@ -2,7 +2,11 @@
 using backend.Models;
 using backend.Protos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Concurrent;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace backend.Services;
 
@@ -22,6 +26,28 @@ public class DirectoryService
             .Include(e => e.Department)
             .Include(e => e.HybridSchedule)
             .FirstOrDefaultAsync(e => e.Username == username);
+    }
+
+    // 3. Generate Digital Token Vector (Course Topic: Compact & Independent Claims)
+    public string GenerateJwtToken(Employee emp)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtKey = "meridian_secret_security_key_with_proper_length_2026";
+        var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[] 
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, emp.Id.ToString()),
+                new Claim("dept", emp.Department?.Name ?? "General")
+            }),
+            Expires = DateTime.UtcNow.AddHours(2), // Set Token Expiration Window
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var tokenObject = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(tokenObject);
     }
 
     public void RegisterHeartbeat(int employeeId)

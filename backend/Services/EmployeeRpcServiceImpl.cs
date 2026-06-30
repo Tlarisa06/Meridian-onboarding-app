@@ -22,13 +22,37 @@ public class EmployeeRpcServiceImpl : EmployeeRpcService.EmployeeRpcServiceBase
     public override async Task<LoginResponse> Login(LoginRequest request, ServerCallContext context)
     {
         var emp = await _directoryService.AuthenticateAsync(request.Username);
-        if (emp == null || emp.PasswordHash != Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(request.Password))))
+        if (emp == null)
+        {
+            return new LoginResponse { Success = false, ErrorMessage = "Invalid credentials." };
+        }
+
+        // COURSE TOPIC: PBKDF2 PasswordEncoder Verification Implementation
+        var saltBytes = Encoding.UTF8.GetBytes("meridian_salt_26"); 
+        using var pbkdf2 = new Rfc2898DeriveBytes(
+            request.Password, 
+            saltBytes, 
+            iterations: 100000, 
+            HashAlgorithmName.SHA256);
+        
+        var computedHash = Convert.ToBase64String(pbkdf2.GetBytes(32));
+
+        if (emp.PasswordHash != computedHash)
         {
             return new LoginResponse { Success = false, ErrorMessage = "Invalid credentials." };
         }
 
         _directoryService.RegisterHeartbeat(emp.Id);
-        return new LoginResponse { Success = true, Token = Guid.NewGuid().ToString(), Employee = DirectoryService.MapToEmployeeResponse(emp) };
+
+        // 1. Generate standard secure stateless token signatures (Course Topic: JWT Generation)
+        var jwtToken = _directoryService.GenerateJwtToken(emp);
+
+        return new LoginResponse 
+        { 
+            Success = true, 
+            Token = jwtToken, 
+            Employee = DirectoryService.MapToEmployeeResponse(emp) 
+        };
     }
 
     public override async Task GetEmployees(UserHeartbeatRequest request, IServerStreamWriter<EmployeeListResponse> responseStream, ServerCallContext context)

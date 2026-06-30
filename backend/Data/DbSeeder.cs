@@ -6,6 +6,14 @@ namespace backend.Data;
 
 public static class DbSeeder
 {
+    // Helper to hash passwords using PBKDF2 (Course Topic: PasswordEncoder Secure Salts)
+    private static string HashPasswordWithPbkdf2(string password)
+    {
+        var saltBytes = Encoding.UTF8.GetBytes("meridian_salt_26");
+        using var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, iterations: 100000, HashAlgorithmName.SHA256);
+        return Convert.ToBase64String(pbkdf2.GetBytes(32));
+    }
+
     public static void SeedData(AppDbContext context)
     {
         context.Database.EnsureCreated();
@@ -33,7 +41,9 @@ public static class DbSeeder
             context.SaveChanges();
 
             var activeDepartments = context.Departments.ToList();
-            var defaultPasswordHash = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes("password123")));
+            
+            // Generate standard PBKDF2 hash vectors for legacy bulk operations
+            var defaultPasswordHash = HashPasswordWithPbkdf2("password123");
             var today = DateTime.UtcNow;
 
             var firstNames = new[] { "John", "Jane", "Alex", "Emily", "Michael", "Sarah", "David", "Jessica", "Robert", "Emma" };
@@ -51,7 +61,7 @@ public static class DbSeeder
                 Username = "anna.hr",
                 PasswordHash = defaultPasswordHash,
                 SlackHandle = "anna_hr",
-                HeroDate = today.AddYears(-3),
+                HireDate = today.AddYears(-3),
                 DepartmentId = hrDept.Id
             };
             employeesToSeed.Add(hrManager);
@@ -81,8 +91,9 @@ public static class DbSeeder
                 });
             }
 
-            var hashLarisa = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes("passwd123")));
-            var hashDani = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes("passwd456")));
+            // Secure custom test accounts via unique derivation vectors
+            var hashLarisa = HashPasswordWithPbkdf2("passwd123");
+            var hashDani = HashPasswordWithPbkdf2("passwd456");
 
             // 3. Seed exact active new hires within the strict 30-day corporate window
             var currentMonthNewHires = new List<Employee>

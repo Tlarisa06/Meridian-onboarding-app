@@ -1,10 +1,35 @@
 using backend.Data;
 using backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure cross-origin resource sharing policies for web clients
+// 1. JWT Security Configuration Setup (Course Topic: REST Authentication)
+var jwtKey = "meridian_secret_security_key_with_proper_length_2026"; // Ensure min 256 bits
+var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+    };
+});
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -16,26 +41,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure JSON serialization to gracefully bypass object cycle references
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-// Enable gRPC services with detailed diagnostics
 builder.Services.AddGrpc(options => 
 {
     options.EnableDetailedErrors = true;
 });
 
 builder.Services.AddOpenApi();
-
-// Register the database infrastructure layer with SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=meridian.db"));
 
-// Register Domain Infrastructure Services for Dependency Injection
 builder.Services.AddScoped<DirectoryService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<MeetingService>();
@@ -50,11 +70,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// Order validation: CORS evaluation must happen before routing to gRPC-Web pipes
 app.UseCors("AllowAll");
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
-// Initialize database context scope to trigger migrations and seeder routines
+// 2. Map Authentication Middleware to request pipeline filter chains
+app.UseAuthentication();
+app.UseAuthorization();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -73,7 +95,6 @@ using (var scope = app.Services.CreateScope())
 
 app.MapControllers();
 
-// Map active gRPC web routes and bind fallback endpoint restrictions
 app.MapGrpcService<backend.Services.EmployeeRpcServiceImpl>()
     .EnableGrpcWeb()
     .RequireCors("AllowAll");

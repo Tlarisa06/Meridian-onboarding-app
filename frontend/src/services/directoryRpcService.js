@@ -4,6 +4,12 @@ import { meridian } from "../protos/meridian_compiled";
 const SERVER_URL = "http://localhost:5266";
 const client = new grpcWeb.GrpcWebClientBase({});
 
+// Helper to inject the authorization token metadata dynamically into gRPC pipes
+const getAuthMetadata = () => {
+    const token = localStorage.getItem("meridian_token");
+    return token ? { "authorization": `Bearer ${token}` } : {};
+};
+
 // Establish a server-streaming connection to track the global employee directory
 export const subscribeToEmployees = (employeeId, onDataReceived, onErrorReceived) => {
     const methodDescriptor = new grpcWeb.MethodDescriptor(
@@ -18,10 +24,11 @@ export const subscribeToEmployees = (employeeId, onDataReceived, onErrorReceived
         (bytes) => meridian.EmployeeListResponse.decode(bytes)
     );
 
+    // COURSE TOPIC: Passing Stateless Token State across Global Directory Streaming Interfaces
     const stream = client.serverStreaming(
         SERVER_URL + "/meridian.EmployeeRpcService/GetEmployees",
         { employeeId: Number(employeeId) },
-        {},
+        getAuthMetadata(), // Inject JWT verification bearer token
         methodDescriptor
     );
 
@@ -93,7 +100,7 @@ export const updateHybridSchedule = (employeeId, updatedSchedule) => {
                 thursday: updatedSchedule.thursday,
                 friday: updatedSchedule.friday
             },
-            {},
+            getAuthMetadata(), // Inject JWT verification bearer token
             methodDescriptor,
             (err, response) => {
                 if (err) reject(err);

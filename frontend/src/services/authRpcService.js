@@ -4,7 +4,6 @@ import { meridian } from "../protos/meridian_compiled";
 const SERVER_URL = "http://localhost:5266";
 const client = new grpcWeb.GrpcWebClientBase({});
 
-// Dispatch a unary credentials payload invocation link
 export const login = (username, password) => {
     return new Promise((resolve, reject) => {
         const methodDescriptor = new grpcWeb.MethodDescriptor(
@@ -29,7 +28,13 @@ export const login = (username, password) => {
                     console.error("gRPC Login Error:", err);
                     reject(err);
                 } else {
-                    resolve(response);
+                    // Extract token string natively from proto deserialization layer
+                    resolve({
+                        success: response.success || response.Success,
+                        token: response.token || response.Token,
+                        employee: response.employee || response.Employee,
+                        errorMessage: response.errorMessage || response.ErrorMessage
+                    });
                 }
             }
         );

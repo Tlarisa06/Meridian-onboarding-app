@@ -4,7 +4,13 @@ import { meridian } from "../protos/meridian_compiled";
 const SERVER_URL = "http://localhost:5266";
 const client = new grpcWeb.GrpcWebClientBase({});
 
-// Request all department and personalized meetings for the logged-in session
+// Helper to inject the authorization token metadata dynamically into gRPC pipes
+const getAuthMetadata = () => {
+    const token = localStorage.getItem("meridian_token");
+    return token ? { "authorization": `Bearer ${token}` } : {};
+};
+
+// CRITICAL EXPORT: This matches the exact token import name throwing the error
 export const getMeetings = (employeeId, departmentName) => {
     return new Promise((resolve, reject) => {
         const methodDescriptor = new grpcWeb.MethodDescriptor(
@@ -25,11 +31,13 @@ export const getMeetings = (employeeId, departmentName) => {
         client.rpcCall(
             SERVER_URL + "/meridian.EmployeeRpcService/GetMeetings",
             { employeeId: Number(employeeId), departmentName },
-            {},
+            getAuthMetadata(), // Inject JWT token vector into metadata header
             methodDescriptor,
             (err, response) => {
-                if (err) reject(err);
-                else {
+                if (err) {
+                    reject(err);
+                } else {
+                    // Extract the meetings array safely matching compiled proto structures
                     const meetings = response.meetings ?? response.Meetings ?? [];
                     resolve(meetings);
                 }

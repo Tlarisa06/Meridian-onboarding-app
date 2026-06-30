@@ -20,9 +20,16 @@ function App() {
     const [activeChatTarget, setActiveChatTarget] = useState(null);
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
-
-    // State for the search bar input string
     const [searchTerm, setSearchTerm] = useState('');
+
+    // Session Recovery Effect: Load token seamlessly on application initialization
+    useEffect(() => {
+        const cachedUser = localStorage.getItem('meridian_user');
+        const cachedToken = localStorage.getItem('meridian_token');
+        if (cachedUser && cachedToken) {
+            setUser(JSON.parse(cachedUser));
+        }
+    }, []);
 
     // Synchronize global gRPC streams (Employee directory listing and live chat messages)
     useEffect(() => {
@@ -31,7 +38,6 @@ function App() {
         const currentUserId = Number(user.id || user.Id || 0);
         if (currentUserId === 0) return;
 
-        // Subscribe to real-time corporate directory status changes
         const unsubscribeEmployees = subscribeToEmployees(
             currentUserId,
             (newData) => {
@@ -44,7 +50,6 @@ function App() {
             }
         );
 
-        // Listen for live inbound chat messages over the bi-directional pipe
         const unsubscribeMessages = subscribeToMessages(currentUserId, (incomingMsg) => {
             const msgSender = Number(incomingMsg.senderId ?? incomingMsg.sender_id ?? 0);
             const msgReceiver = Number(incomingMsg.receiverId ?? incomingMsg.receiver_id ?? 0);
@@ -113,8 +118,8 @@ function App() {
         setLoginError(null);
         try {
             const response = await login(username, password);
-            if (response && (response.success || response.Success)) {
-                const rawEmp = response.employee || response.Employee;
+            if (response && response.success) {
+                const rawEmp = response.employee;
 
                 const loggedInUser = {
                     id: Number(rawEmp.id ?? rawEmp.Id ?? 0),
@@ -125,9 +130,13 @@ function App() {
                         name: rawEmp.department.name ?? rawEmp.department.Name ?? ""
                     } : null
                 };
+
+                localStorage.setItem('meridian_token', response.token);
+                localStorage.setItem('meridian_user', JSON.stringify(loggedInUser));
+
                 setUser(loggedInUser);
             } else {
-                setLoginError(response.errorMessage || response.ErrorMessage || "Invalid credentials.");
+                setLoginError(response.errorMessage || "Invalid credentials.");
             }
         } catch (err) {
             console.error("gRPC Login Error:", err);
@@ -136,6 +145,9 @@ function App() {
     };
 
     const handleLogout = () => {
+        localStorage.removeItem('meridian_token');
+        localStorage.removeItem('meridian_user');
+
         setUser(null);
         setActiveChatTarget(null);
         setEmployees([]);
@@ -174,7 +186,6 @@ function App() {
         (Number(m.senderId) === targetUserId && Number(m.receiverId) === currentUserId)
     );
 
-    // Filter engine: Matches search term against full name or department name
     const filteredEmployees = employees.filter(emp => {
         const fullName = `${emp.firstName || ""} ${emp.lastName || ""}`.toLowerCase();
         const deptName = (emp.department?.name || emp.department?.Name || "").toLowerCase();
@@ -230,9 +241,9 @@ function App() {
                     </button>
                 </div>
 
-                {/* White Search Bar placed directly BELOW the tab listing list layout */}
+                {/* White Search Bar with absolute Clear "✕" Action Button */}
                 {showSearchBar && (
-                    <div style={{ marginBottom: '20px', marginTop: '-10px' }}>
+                    <div style={{ marginBottom: '20px', marginTop: '-10px', position: 'relative' }}>
                         <input
                             type="text"
                             placeholder="🔍 Search employees by name or department..."
@@ -240,22 +251,46 @@ function App() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{
                                 width: '100%',
-                                padding: '12px 16px',
+                                padding: '12px 40px 12px 16px', // Extra right padding to avoid text overlapping the X button
                                 borderRadius: '8px',
                                 border: '1px solid #e2e8f0',
                                 fontSize: '14px',
                                 outline: 'none',
                                 boxSizing: 'border-box',
-                                backgroundColor: '#ffffff', // Explicit clean crisp white background
+                                backgroundColor: '#ffffff',
                                 color: '#0f172a',
                                 boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
                                 transition: 'all 0.2s'
                             }}
                         />
+                        {searchTerm && (
+                            <button
+                                onClick={() => setSearchTerm('')}
+                                style={{
+                                    position: 'absolute',
+                                    right: '12px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    background: 'none',
+                                    border: 'none',
+                                    color: '#94a3b8',
+                                    fontSize: '16px',
+                                    cursor: 'pointer',
+                                    padding: '4px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'color 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.target.style.color = '#475569'}
+                                onMouseLeave={(e) => e.target.value = '#64748b'}
+                            >
+                                ✕
+                            </button>
+                        )}
                     </div>
                 )}
 
-                {/* Render Views using filtered data vectors */}
                 {activeTab === 'departments' && <EmployeeTable employees={filteredEmployees} onOpenChat={setActiveChatTarget} />}
                 {activeTab === 'schedule' && <HybridScheduleTable employees={filteredEmployees} />}
 
