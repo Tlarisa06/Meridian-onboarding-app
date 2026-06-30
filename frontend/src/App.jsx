@@ -7,6 +7,7 @@ import EmployeeTable from './components/EmployeeTable';
 import HybridScheduleTable from './components/HybridScheduleTable';
 import MySchedule from './components/MySchedule';
 import MeetingSchedule from './components/MeetingSchedule';
+import WelcomeWidget from './components/WelcomeWidget';
 import styles from './styles/appStyles';
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
     const [activeChatTarget, setActiveChatTarget] = useState(null);
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
+
+    // State for the search bar input string
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Synchronize global gRPC streams (Employee directory listing and live chat messages)
     useEffect(() => {
@@ -47,7 +51,6 @@ function App() {
 
             if (msgSender === currentUserId || msgReceiver === currentUserId) {
                 setMessages(prev => {
-                    // Prevent message duplication if records have already loaded via local database history queries
                     const isDuplicate = prev.some(m =>
                         Number(m.senderId) === msgSender &&
                         m.text === incomingMsg.text &&
@@ -83,7 +86,6 @@ function App() {
 
                 const history = await getChatHistory(senderId, receiverId);
 
-                // Map database entity properties into a unified local UI data structure
                 const normalizedHistory = history.map(m => ({
                     senderId: Number(m.senderId ?? m.sender_id ?? 0),
                     receiverId: Number(m.receiverId ?? m.receiver_id ?? 0),
@@ -92,7 +94,6 @@ function App() {
                 }));
 
                 setMessages(prev => {
-                    // Flush lingering runtime entries to insert a clean database historical line array
                     const filteredMessages = prev.filter(m =>
                         !((Number(m.senderId) === senderId && Number(m.receiverId) === receiverId) ||
                             (Number(m.senderId) === receiverId && Number(m.receiverId) === senderId))
@@ -115,7 +116,6 @@ function App() {
             if (response && (response.success || response.Success)) {
                 const rawEmp = response.employee || response.Employee;
 
-                // Normalize variations into a strict camelCase layout structure
                 const loggedInUser = {
                     id: Number(rawEmp.id ?? rawEmp.Id ?? 0),
                     firstName: rawEmp.firstName ?? rawEmp.FirstName ?? rawEmp.first_name ?? "",
@@ -135,15 +135,14 @@ function App() {
         }
     };
 
-    // Purge active context allocations on disconnect routines
     const handleLogout = () => {
         setUser(null);
         setActiveChatTarget(null);
         setEmployees([]);
         setMessages([]);
+        setSearchTerm('');
     };
 
-    // Transmit textual message properties over unary client proxies
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if (!messageText.trim() || !activeChatTarget || !user) return;
@@ -153,13 +152,11 @@ function App() {
             const receiverId = Number(activeChatTarget.id || activeChatTarget.Id || 0);
             const textToSend = messageText.trim();
 
-            // Instant clear text fields for dynamic UI processing responses
             setMessageText('');
-
             await sendChatMessage(senderId, receiverId, textToSend);
         } catch (err) {
             console.error("Chat Send Error:", err);
-            alert("Failed to send message over gRPC. Make sure backend is updated and running.");
+            alert("Failed to send message over gRPC.");
         }
     };
 
@@ -169,19 +166,27 @@ function App() {
         return <LoginForm onLogin={handleLoginSubmit} loginError={loginError} />;
     }
 
-    // Cast numeric identifiers for stable conditional rendering filters
     const currentUserId = Number(user.id || user.Id || 0);
     const targetUserId = activeChatTarget ? Number(activeChatTarget.id || activeChatTarget.Id || 0) : 0;
 
-    // Filter dynamic dialogue streams to capture targeted mutual conversation segments
     const currentChatMessages = messages.filter(m =>
         (Number(m.senderId) === currentUserId && Number(m.receiverId) === targetUserId) ||
         (Number(m.senderId) === targetUserId && Number(m.receiverId) === currentUserId)
     );
 
+    // Filter engine: Matches search term against full name or department name
+    const filteredEmployees = employees.filter(emp => {
+        const fullName = `${emp.firstName || ""} ${emp.lastName || ""}`.toLowerCase();
+        const deptName = (emp.department?.name || emp.department?.Name || "").toLowerCase();
+        const normalizedTerm = searchTerm.toLowerCase();
+
+        return fullName.includes(normalizedTerm) || deptName.includes(normalizedTerm);
+    });
+
+    const showSearchBar = activeTab === 'departments' || activeTab === 'schedule';
+
     return (
         <div style={styles.appLayout}>
-            {/* Core tracking module viewport */}
             <div style={styles.mainContent}>
                 <div style={styles.headerRow}>
                     <h1 style={styles.title}>Meridian Onboarding Portal</h1>
@@ -191,40 +196,73 @@ function App() {
                     </div>
                 </div>
 
+                <WelcomeWidget
+                    loggedInUser={user}
+                    employees={employees}
+                    onSelectEmployee={setActiveChatTarget}
+                />
+
+                {/* Tab Navigation Container */}
                 <div style={styles.tabContainer}>
                     <button
                         style={activeTab === 'departments' ? styles.activeTabButton : styles.tabButton}
-                        onClick={() => setActiveTab('departments')}
+                        onClick={() => { setActiveTab('departments'); setSearchTerm(''); }}
                     >
                         📁 Employees by Department
                     </button>
                     <button
                         style={activeTab === 'schedule' ? styles.activeTabButton : styles.tabButton}
-                        onClick={() => setActiveTab('schedule')}
+                        onClick={() => { setActiveTab('schedule'); setSearchTerm(''); }}
                     >
                         📅 Hybrid Schedule by Department
                     </button>
                     <button
                         style={activeTab === 'my-schedule' ? styles.activeTabButton : styles.tabButton}
-                        onClick={() => setActiveTab('my-schedule')}
+                        onClick={() => { setActiveTab('my-schedule'); setSearchTerm(''); }}
                     >
                         ⚙️ My Schedule
                     </button>
                     <button
                         style={activeTab === 'meetings' ? styles.activeTabButton : styles.tabButton}
-                        onClick={() => setActiveTab('meetings')}
+                        onClick={() => { setActiveTab('meetings'); setSearchTerm(''); }}
                     >
                         🎥 Google Meet Schedule
                     </button>
                 </div>
 
-                {activeTab === 'departments' && <EmployeeTable employees={employees} onOpenChat={setActiveChatTarget} />}
-                {activeTab === 'schedule' && <HybridScheduleTable employees={employees} />}
+                {/* White Search Bar placed directly BELOW the tab listing list layout */}
+                {showSearchBar && (
+                    <div style={{ marginBottom: '20px', marginTop: '-10px' }}>
+                        <input
+                            type="text"
+                            placeholder="🔍 Search employees by name or department..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '12px 16px',
+                                borderRadius: '8px',
+                                border: '1px solid #e2e8f0',
+                                fontSize: '14px',
+                                outline: 'none',
+                                boxSizing: 'border-box',
+                                backgroundColor: '#ffffff', // Explicit clean crisp white background
+                                color: '#0f172a',
+                                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
+                                transition: 'all 0.2s'
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* Render Views using filtered data vectors */}
+                {activeTab === 'departments' && <EmployeeTable employees={filteredEmployees} onOpenChat={setActiveChatTarget} />}
+                {activeTab === 'schedule' && <HybridScheduleTable employees={filteredEmployees} />}
+
                 {activeTab === 'my-schedule' && <MySchedule employees={employees} loggedInUser={user} />}
                 {activeTab === 'meetings' && <MeetingSchedule loggedInUser={user} employees={employees} />}
             </div>
 
-            {/* Collapsible sidebar chat panel integration */}
             {activeChatTarget && (
                 <div style={styles.sidebarChat}>
                     <div style={styles.sidebarHeader}>
