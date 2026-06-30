@@ -7,8 +7,39 @@ using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Channels;
 
 namespace backend.Services;
+
+// COURSE TOPIC: Event payload structure for decoupled messaging
+public class HybridScheduleEvent
+{
+    public int EmployeeId { get; set; }
+    public bool Monday { get; set; }
+    public bool Tuesday { get; set; }
+    public bool Wednesday { get; set; }
+    public bool Thursday { get; set; }
+    public bool Friday { get; set; }
+}
+
+// COURSE TOPIC: In-Memory Message Broker managing asynchronous event queues safely
+public class ScheduleMessageBroker
+{
+    private readonly Channel<HybridScheduleEvent> _channel;
+
+    public ScheduleMessageBroker()
+    {
+        // Unbounded channel acts as an async FIFO Message Queue
+        _channel = Channel.CreateUnbounded<HybridScheduleEvent>(new UnboundedChannelOptions
+        {
+            SingleReader = true, // Enforces dedicated background worker sequence
+            SingleWriter = false
+        });
+    }
+
+    public ChannelWriter<HybridScheduleEvent> Writer => _channel.Writer;
+    public ChannelReader<HybridScheduleEvent> Reader => _channel.Reader;
+}
 
 public class DirectoryService
 {

@@ -11,12 +11,14 @@ public class EmployeeRpcServiceImpl : EmployeeRpcService.EmployeeRpcServiceBase
     private readonly DirectoryService _directoryService;
     private readonly ChatService _chatService;
     private readonly MeetingService _meetingService;
+    private readonly ScheduleMessageBroker _messageBroker;
 
-    public EmployeeRpcServiceImpl(DirectoryService directoryService, ChatService chatService, MeetingService meetingService)
+    public EmployeeRpcServiceImpl(DirectoryService directoryService, ChatService chatService, MeetingService meetingService, ScheduleMessageBroker messageBroker)
     {
         _directoryService = directoryService;
         _chatService = chatService;
         _meetingService = meetingService;
+        _messageBroker = messageBroker;
     }
 
     public override async Task<LoginResponse> Login(LoginRequest request, ServerCallContext context)
@@ -68,8 +70,26 @@ public class EmployeeRpcServiceImpl : EmployeeRpcService.EmployeeRpcServiceBase
     public override async Task<LoginResponse> UpdateHybridSchedule(UpdateScheduleRequest request, ServerCallContext context)
     {
         _directoryService.RegisterHeartbeat(request.EmployeeId);
-        var success = await _directoryService.UpdateHybridScheduleAsync(request.EmployeeId, request.Monday, request.Tuesday, request.Wednesday, request.Thursday, request.Friday);
-        return new LoginResponse { Success = success, ErrorMessage = success ? "" : "Schedule record not found." };
+
+        // COURSE TOPIC: Decoupled Messaging System (gRPC Endpoint acts purely as an asynchronous Message Producer)
+        var scheduleEvent = new HybridScheduleEvent
+        {
+            EmployeeId = request.EmployeeId,
+            Monday = request.Monday,
+            Tuesday = request.Tuesday,
+            Wednesday = request.Wednesday,
+            Thursday = request.Thursday,
+            Friday = request.Friday
+        };
+
+        // Push non-blocking message directly to the broker channel queue write head
+        var publishSuccess = _messageBroker.Writer.TryWrite(scheduleEvent);
+
+        return new LoginResponse 
+        { 
+            Success = publishSuccess, 
+            ErrorMessage = publishSuccess ? "" : "Internal decoupling message queue failure." 
+        };
     }
 
     public override async Task<ChatWindowResponse> SendMessage(ChatMessageRequest request, ServerCallContext context)
