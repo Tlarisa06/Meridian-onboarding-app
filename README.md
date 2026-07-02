@@ -1,57 +1,115 @@
-# Meridian Onboarding Portal
+# 🏢 Meridian Onboarding Portal
 
-An internal application designed for managing company onboarding profiles, structural planning, and real-time peer-to-peer communication during a new hire's integration phase.
+[![Framework](https://img.shields.io/badge/.NET-10-purple.svg)](https://dotnet.microsoft.com/)
+[![Frontend](https://img.shields.io/badge/React-JavaScript-blue.svg)](https://react.dev/)
+[![Protocol](https://img.shields.io/badge/gRPC--Web-Protocol_Buffers-00b0ff.svg)](https://grpc.io/)
+[![Database](https://img.shields.io/badge/SQLite-EF_Core-003b57.svg)](https://sqlite.org/)
+
+An enterprise-grade internal application designed to streamline company onboarding profiles, automate structural planning, and facilitate real-time peer-to-peer communication during a new hire's integration phase.
 
 ---
 
-# Application Architecture & Core Features
+## 🏗️ Architecture Overview
 
-The Meridian Portal establishes a highly decoupled architecture split across dedicated functional layers, orchestrating data flow between a thin network service layer and micro-focused business engines:
+The Meridian Portal implements a highly decoupled **Domain Services Architecture**. Business logic is completely isolated from the gRPC transport layer into micro-focused service engines managed via C# Dependency Injection, positioning the main controller as a thin network dispatcher.
+
+```text
+   [ React Frontend ] 
+           │
+    ( gRPC-Web / HTTP )
+           │
+           ▼
+[ gRPC Interface Layer ] (Thin Dispatcher)
+           │
+  ( Dependency Injection )
+           │
+           ├───────────────┼───────────────┐
+           ▼               ▼               ▼
+   [DirectoryService] [ChatService] [MeetingService]
+           │               │               │
+           └───────────────┼───────────────┘
+                           ▼
+            [ Entity Framework Core ]
+                           │
+                           ▼
+                   [ SQLite Database ]
+```
+
+---
+
+## ⚡ Core Features & Implementation Details
 
 ### 📁 1. Directory & Hybrid Scheduling
-* **Dynamic Grouping & Sorting:** The frontend processes raw data inputs to group profiles dynamically by department name and automatically sorts them alphabetically by full name.
-* **Tenure Analytics:** Automatically computes corporate seniority intervals in months from absolute JSON string dates relative to the active runtime clock.
-* **Visual Work Planner:** Renders an intuitive attendance grid separating `🏢 Office` and `🏠 Remote` days through vibrant, color-coded dashboard indicators.
+* **Dynamic Grouping & Sorting:** The frontend dynamically groups employee profiles by their department name and automatically enforces an alphabetical sorting matrix by full name.
+* **Tenure Analytics:** Automatically computes precise corporate seniority intervals (measured in months) by parsing absolute JSON string dates relative to the active system runtime clock.
+* **Visual Work Planner:** Renders an intuitive hybrid attendance grid that visually maps `🏢 Office` and `🏠 Remote` ratios using high-contrast, color-coded dashboard indicators.
 
 ### 📁 2. Core Chat Engine
-* **Database Persistence Layer:** Permanent relational storage tracks structural entities for every single message via a dedicated database snapshot, ensuring logs survive application restarts.
+* **Database Persistence Layer:** Permanent relational storage tracks and logs structural entities for every single message via a dedicated database snapshot, ensuring chat logs securely survive application restarts.
 * **Network Interface Contract (Proto3):**
-  * *Unary Actions:* Exposes strict binarized invocation routes for sending messages (`SendMessage`) and requesting logs (`GetChatHistory`).
-  * *Server-to-Client Streaming:* Establishes a persistent, continuous stream (`ListenMessages`) to push inbound traffic instantly to active listening nodes.
+  * *Unary Actions:* Exposes strict, binarized invocation routes for sending messages (`SendMessage`) and requesting historical logs (`GetChatHistory`).
+  * *Server-to-Client Streaming:* Establishes a persistent, continuous gRPC stream (`ListenMessages`) to push inbound traffic instantly to active listening nodes.
 * **Asynchronous Distribution Engine:** Iterates through a thread-safe `ConcurrentBag` collection of open client channels to route freshly arrived payloads instantaneously using an asynchronous fan-out strategy.
-* **Timezone Shifting:** Automatically converts the centralized UTC server storage timestamps into local user display strings (`ToLocalTime()`) upon history requests.
-* **Idempotent State Ingestion:** Implements strict duplication filters checking matching combinations of text content, timestamps, and originators to prevent overlapping anomalies between the history log and live streams.
+* **Timezone Shifting:** Automatically converts centralized UTC server storage timestamps into local user display strings (`ToLocalTime()`) instantly upon history requests.
+* **Idempotent State Ingestion:** Implements strict client-side duplication filters checking matching combinations of text content, timestamps, and originators to prevent overlapping anomalies between the history log and live streams.
 
-### 📁 3. Google Meet Schedule Engine & Architecture Separation
-* **Domain Service Decoupling:** Isolated database execution out of the gRPC interface layer into specialized services (`DirectoryService`, `ChatService`, `MeetingService`) managed via C# Dependency Injection. The main controller acts purely as a thin network dispatcher.
+### 📁 3. Google Meet Schedule Engine
 * **Dual-Column Context Filtering:**
-  * *Left Column (Department Syncs):* Automatically aggregates company-wide updates and targets specific group meetings that match the logged-in user's corporate department.
-  * *Right Column (Personalized Onboarding):* Filters custom database records by parsing individual attendee ID arrays to dynamically match the current user's profile identifier.
-* **Defensive Frontend Mapping:** Implements robust property-resolution fallbacks on the React layer to remain entirely format-agnostic, seamlessly digesting camelCase, PascalCase, and snake_case variations generated by compiled proto stubs.
+
+| Column | Scope | Mapping Logic |
+| :--- | :--- | :--- |
+| **Left Column** | *Department Syncs* | Automatically aggregates company-wide updates and targets specific group meetings that match the logged-in user's corporate department. |
+| **Right Column** | *Personalized Onboarding* | Filters custom database records by parsing individual attendee ID arrays to dynamically match the current user's profile identifier. |
+
+* **Defensive Frontend Mapping:** Implements robust property-resolution fallbacks on the React layer to remain entirely format-agnostic, seamlessly digesting `camelCase`, `PascalCase`, and `snake_case` variations generated by compiled proto stubs.
 
 ---
 
-# ⚡ Getting Started & Development
+## 🚀 Getting Started & Development
 
 ### System Requirements
-* .NET 10 SDK
-* Node.js & npm
-* SQLite Tools
+* **Backend:** .NET 10 SDK
+* **Frontend:** Node.js (v18+) & npm
+* **Database:** SQLite Tools
 
 ### 🖥️ 1. Backend Setup & Execution
-Navigate to the `backend` directory, apply the necessary Entity Framework schema migrations to register the infrastructure tables, and spin up the gRPC-Web server:
+Navigate to the `backend` directory, apply the Entity Framework schema migrations to register the infrastructure tables, and spin up the gRPC server:
 
 ```bash
+# Navigate to the backend folder
 cd backend
 
-# Create the migrations tracking file for the new meetings table
+# Create the migrations tracking file for the meetings table
 dotnet ef migrations add AddMeetingsTable
 
-# Optional: Drop or remove the old database file if seed data doesn't refresh
+# Optional: Clear old database file if seed data needs a hard reset
 # Windows: del meridian.db  |  Mac/Linux: rm meridian.db
 
-# Apply migrations and create the SQLite database file
+# Apply migrations and generate the local SQLite database file
 dotnet ef database update
 
 # Run the backend server
 dotnet run
+```
+
+### 💻 2. Frontend Setup & Execution
+With the backend server active, open a new terminal instance, navigate to the frontend directory, install the node dependencies, and boot the Vite development server:
+
+```bash
+# Navigate to the frontend folder
+cd frontend
+
+# Install necessary corporate dependencies and protobuf modules
+npm install
+
+# Launch the interactive local web client
+npm run dev
+```
+
+Once both layers are fully initialized, open your browser and navigate to http://localhost:5173 to access the portal.
+
+---
+
+## 🔒 Security & Cryptographic Standards
+* **Password Hashing:** Passwords are fully protected using the industrial PBKDF2 (Password-Based Key Derivation Function 2) algorithm running with 100,000 iterations and a unique cryptographic salt.
+* **Session Integrity:** Upon successful authentication, access tokens are cryptographically signed using server-side keys (JSON Web Tokens - JWT) and committed to localStorage to manage stateful session recovery seamlessly.
